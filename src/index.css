@@ -1,11 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Noto+Sans+Thai:wght@100;300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Noto+Sans+Thai:wght@100;300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-
+@layer base {
+  html {
+    @apply text-neutral-800;
+  }
+  html.dark {
+    @apply text-neutral-50;
+    @apply bg-neutral-800;
+  }
+}
 
 h1,
 h2,
@@ -33,12 +40,11 @@ p {
 }
 
 .cta-button {
-    background-color:  #f97316;
-    border-radius: 32px;
-    color: #ffffff;
-    font-family: "Noto Sans Thai", sans-serif;
-    font-size: 1.2rem;
-    font-weight: 600;
-    padding: 4px 32px;
-
+  background-color: #f97316;
+  border-radius: 32px;
+  color: #ffffff;
+  font-family: "Noto Sans Thai", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 4px 32px;
 }
