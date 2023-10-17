@@ -1,9 +1,7 @@
 import React from 'react'
 import { useProduct } from '../../hooks/use-product'
 
-export default function ProductItem({ productItem }) {
-
-    const { selectedProduct, setSelectedProduct } = useProduct();
+export default function ProductItem({ productItem, addToCart, selectedProduct, setSelectedProduct, mainProductPrice, setMainProductPrice }) {
 
     return (
         <label
@@ -11,10 +9,16 @@ export default function ProductItem({ productItem }) {
         >
             <input
                 name={productItem.name}
-                onClick={() => setSelectedProduct(productItem.name)}
+                onClick={() => {
+                    setSelectedProduct(productItem.name)
+                    setMainProductPrice(productItem.price)
+                    addToCart(productItem);
+                }}
                 className="sr-only"
                 type="radio"
             />
+            {/* {console.log(selectedProduct)}
+            {console.log(mainProductPrice)} */}
 
             <div className="flex flex-col">
                 <span className="text-gray-600 text-md">{productItem.name}</span>

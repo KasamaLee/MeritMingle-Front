@@ -4,7 +4,7 @@ import { useAuth } from '../hooks/use-auth';
 
 export default function Navigation() {
 
-    const { isOpen, setIsOpen } = useAuth();
+
 
     return (
         <nav>
@@ -17,9 +17,6 @@ export default function Navigation() {
                 </li>
                 <li>
                     <Link to='/cart'>Cart</Link>
-                </li>
-                <li>
-                    <button className="bg-orange-500 text-white px-4 py-1 rounded-2xl" onClick={() => setIsOpen(true)}>Login</button>
                 </li>
             </ul>
         </nav>

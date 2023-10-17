@@ -1,30 +1,66 @@
 import { createContext } from 'react'
-import axios from 'axios';
+import axios from '../config/axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
+
+
+
 
 const ProductContext = createContext();
 
 export default function ProductContextProvider({ children }) {
 
-
     useEffect(() => {
         fetchProduct();
     }, [])
 
-    const [selectedProduct, setSelectedProduct] = useState(null);
-
     const [mainProducts, setMainProducts] = useState([]);
-    const [addOnProducts, setAddOnProducts] = useState([]);
-    const [monkExpense, setMonkExpense] = useState({})
 
-    const addToCart = async () => {
-        const response = await axios.post('http//localhost:8888/product')
+    const [addOnProducts, setAddOnProducts] = useState([]);
+
+    // monk
+    const [monkExpense, setMonkExpense] = useState({});
+
+    // cartItem
+    const [cartItem, setCartItem] = useState([])
+
+
+
+    const createToCart = async (input) => {
+
+        // cartItem = []
+        // cartItem.push({},{})
+
+        // const data = {
+        //     totalPrice: totalPrice,
+        //     userId: 2,
+        //     lat: clicked.lat,
+        //     lng: clicked.lng,
+        //     eventDate: eventDate,
+        //     cartItem: [
+        //         {
+        //             amount: 1,
+        //             productId: 1,
+        //             totalPrice: 12000
+        //         },
+        //         {
+        //             amount: 5,
+        //             productId: 4,
+        //             totalPrice: 5000
+        //         }
+        //     ]
+        // }
+
+        const response = await axios.post('/cart/add', input)
+        console.log(response.data);
+
+
+        // const cart = 
     }
 
 
     const fetchProduct = async () => {
-        const response = await axios.get('http://localhost:8888/product/get')
+        const response = await axios.get('/product/get', {})
 
         const allProducts = response.data.products
 
@@ -47,7 +83,19 @@ export default function ProductContextProvider({ children }) {
 
 
     return (
-        <ProductContext.Provider value={{ mainProducts, addOnProducts, monkExpense, selectedProduct, setSelectedProduct }}>{children}</ProductContext.Provider>
+        <ProductContext.Provider
+            value={{
+                mainProducts,
+                monkExpense,
+
+
+                addOnProducts, setAddOnProducts,
+
+                cartItem, setCartItem, createToCart
+            }}
+        >
+            {children}
+        </ProductContext.Provider>
     )
 }
 

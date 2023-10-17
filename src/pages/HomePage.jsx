@@ -1,17 +1,13 @@
 import { useState } from "react"
 import { Link } from 'react-router-dom';
-import Modal from "../components/Modal"
-import LoginAndRegister from "../features/auth/LoginAndRegister"
 import { useAuth } from "../hooks/use-auth"
 import { useProduct } from "../hooks/use-product";
 
 export default function HomePage() {
 
 
-    const [whichProduct, setWhichProduct] = useState('')
-
     const { isOpen, setIsOpen } = useAuth();
-    const { mainProducts, addOnProducts, monkExpense, selectedProduct, setSelectedProduct } = useProduct();
+    const { mainProducts, selectedProduct, setSelectedProduct } = useProduct();
 
     return (
         <>
@@ -50,10 +46,6 @@ export default function HomePage() {
 
             </div>
 
-            {/* ---- LOGIN MODAL ---- */}
-            <Modal open={isOpen} onCloseModal={() => setIsOpen(false)}>
-                <LoginAndRegister onCloseModal={() => setIsOpen(false)} />
-            </Modal>
 
         </>
     )
