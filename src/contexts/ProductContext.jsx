@@ -14,9 +14,13 @@ export default function ProductContextProvider({ children }) {
         fetchProduct();
     }, [])
 
+    // Main Product ต้อง set name และ price มาตั้งแต่ตอนเลือก card หน้า home
+    const [selectedProduct, setSelectedProduct] = useState(null);
     const [mainProducts, setMainProducts] = useState([]);
+    const [mainProductPrice, setMainProductPrice] = useState();
 
     const [addOnProducts, setAddOnProducts] = useState([]);
+
 
     // monk
     const [monkExpense, setMonkExpense] = useState({});
@@ -54,9 +58,8 @@ export default function ProductContextProvider({ children }) {
         const response = await axios.post('/cart/add', input)
         console.log(response.data);
 
-
-        // const cart = 
     }
+
 
 
     const fetchProduct = async () => {
@@ -87,10 +90,9 @@ export default function ProductContextProvider({ children }) {
             value={{
                 mainProducts,
                 monkExpense,
-
-
+                selectedProduct, setSelectedProduct,
+                mainProductPrice, setMainProductPrice,
                 addOnProducts, setAddOnProducts,
-
                 cartItem, setCartItem, createToCart
             }}
         >

@@ -1,8 +1,24 @@
 import React from 'react'
 import { useProduct } from '../../hooks/use-product'
+import { useEffect } from 'react';
 
-export default function ProductItem({ productItem, addToCart, selectedProduct, setSelectedProduct, mainProductPrice, setMainProductPrice }) {
+export default function ProductItem({ productItem, addToCart }) {
 
+    const { selectedProduct, setSelectedProduct, mainProductPrice, setMainProductPrice, } = useProduct();
+
+    useEffect(() => {
+        const savedProductName = localStorage.getItem('selectedProductName');
+        if (savedProductName) {
+            setSelectedProduct(savedProductName);
+            if (productItem.name === savedProductName) {
+                console.log(productItem)
+                addToCart(productItem)
+            }
+        }
+    }, []);
+
+
+    // console.log(productItem)
     return (
         <label
             className={`rounded py-2 px-6 outline-none ring ring-gray-300  hover:outline-none hover:ring hover:ring-orange-300 ${selectedProduct === productItem.name ? 'outline-none ring ring-orange-300' : ''}`}
@@ -11,6 +27,7 @@ export default function ProductItem({ productItem, addToCart, selectedProduct, s
                 name={productItem.name}
                 onClick={() => {
                     setSelectedProduct(productItem.name)
+                    localStorage.setItem('selectedProductName', productItem.name);
                     setMainProductPrice(productItem.price)
                     addToCart(productItem);
                 }}

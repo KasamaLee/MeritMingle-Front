@@ -7,6 +7,8 @@ import AdminPage from '../pages/AdminPage'
 import Layout from '../layout/Layout'
 import Product from '../features/product/Product'
 import { useAuth } from '../hooks/use-auth'
+import Payment from '../pages/Payment'
+import Profile from '../pages/Profile'
 
 
 
@@ -20,6 +22,8 @@ const router = createBrowserRouter([
             { path: 'contact', element: <ContactPage /> },
             { path: 'cart', element: <CartPage /> },
             { path: 'admin', element: <AdminPage /> },
+            { path: 'payment', element: <Payment /> },
+            { path: 'profile', element: <Profile /> },
         ]
     },
 

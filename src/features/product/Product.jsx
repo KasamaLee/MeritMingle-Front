@@ -4,17 +4,28 @@ import ProductItem from './ProductItem';
 import AddOn from './AddOn';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 import Map from './Map';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useProduct } from '../../hooks/use-product';
 import { useAuth } from '../../hooks/use-auth';
+import { useEffect } from 'react';
 
 
 export default function Product() {
 
-	const [selectedProduct, setSelectedProduct] = useState(null);
-	const [mainProductPrice, setMainProductPrice] = useState();
+	// Navigate
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const savedProductName = localStorage.getItem('selectedProductName');
+		if (savedProductName) {
+			setSelectedProduct(savedProductName);
+		}
+	}, []);
+
+
 
 	const [addOn, setAddOn] = useState(false);
 	const [addOnPrice, setAddOnPrice] = useState(0)
@@ -34,6 +45,8 @@ export default function Product() {
 
 	const {
 		mainProducts,
+		selectedProduct, setSelectedProduct,
+		mainProductPrice, setMainProductPrice,
 		monkExpense,
 		addOnProducts, setAddOnProducts,
 		cartItem, setCartItem, createToCart
@@ -48,8 +61,6 @@ export default function Product() {
 	const { authUser, isOpen, setIsOpen } = useAuth();
 
 	const addToCart = (item, amount = 1) => {
-
-
 
 		let newCartItem = [...cartItem];
 
@@ -86,7 +97,6 @@ export default function Product() {
 	}
 
 
-
 	const handleAddToCart = async () => {
 
 		if (!authUser) {
@@ -102,10 +112,12 @@ export default function Product() {
 		}
 
 		await createToCart(reqBody);
+		navigate('/cart')
 
 	}
 
-	console.log(cartItem)
+	// console.log(cartItem)
+	console.log(selectedProduct)
 
 	return (
 		<>
@@ -135,10 +147,6 @@ export default function Product() {
 										key={index}
 										productItem={productItem}
 										addToCart={addToCart}
-										selectedProduct={selectedProduct}
-										setSelectedProduct={setSelectedProduct}
-										mainProductPrice={mainProductPrice}
-										setMainProductPrice={setMainProductPrice}
 									/>
 								)
 							})}

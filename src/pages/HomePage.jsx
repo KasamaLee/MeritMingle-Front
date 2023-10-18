@@ -7,7 +7,11 @@ export default function HomePage() {
 
 
     const { isOpen, setIsOpen } = useAuth();
-    const { mainProducts, selectedProduct, setSelectedProduct } = useProduct();
+
+    const { mainProducts, mainProductPrice, setMainProductPrice, selectedProduct, setSelectedProduct } = useProduct();
+
+
+    // console.log(mainProducts)
 
     return (
         <>
@@ -35,7 +39,14 @@ export default function HomePage() {
 
                 {mainProducts.map((productItem, index) => {
                     return (
-                        <Link key={index} to='/product' onClick={() => setSelectedProduct(productItem.name)}>
+                        <Link
+                            to='/product'
+                            key={index}
+                            onClick={() => {
+                                setSelectedProduct(productItem.name)
+                                localStorage.setItem('selectedProductName', productItem.name);
+                                setMainProductPrice(productItem.price)
+                            }}>
                             <div className="bg-gray-300 flex justify-center items-center p-10 hover:shadow-lg">
                                 {productItem.name}
                             </div>
@@ -44,7 +55,7 @@ export default function HomePage() {
                 })}
 
 
-            </div>
+            </div >
 
 
         </>
