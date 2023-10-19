@@ -3,14 +3,16 @@ import { useState } from 'react'
 import ProductItem from './ProductItem';
 import AddOn from './AddOn';
 import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios'
+import axios from '../../config/axios';
 import { useNavigate } from 'react-router-dom'
 
 import Map from './Map';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 import { useProduct } from '../../hooks/use-product';
 import { useAuth } from '../../hooks/use-auth';
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 
 export default function Product() {
@@ -18,19 +20,27 @@ export default function Product() {
 	// Navigate
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		const savedProductName = localStorage.getItem('selectedProductName');
-		if (savedProductName) {
-			setSelectedProduct(savedProductName);
-		}
-	}, []);
+	const { id } = useParams();
 
-
-
-	const [addOn, setAddOn] = useState(false);
-	const [addOnPrice, setAddOnPrice] = useState(0)
+	const {
+		mainProducts,
+		selectedProduct, setSelectedProduct,
+		mainProductPrice, setMainProductPrice,
+		monkExpense,
+		addOnProducts, setAddOnProducts,
+		createToCart
+	} = useProduct();
 
 	const [monkAmount, setMonkAmount] = useState();
+
+	//  add on
+	const [addOn, setAddOn] = useState(false);
+
+	//  ราคาของ addOn * monkAmount
+	const [addOnPrice, setAddOnPrice] = useState(0)
+
+	// cartItem
+	const [cartItem, setCartItem] = useState([])
 
 	// date
 	const [eventDate, setEventDate] = useState();
@@ -42,15 +52,59 @@ export default function Product() {
 	// totalPrice
 	const [totalPrice, setTotalPrice] = useState(0);
 
+	const fetchCartById = async (id) => {
+		const response = await axios.get(`/cart/get/${id}`)
+		const selectedCart = response.data.cart;
+		console.log(selectedCart)
 
-	const {
-		mainProducts,
-		selectedProduct, setSelectedProduct,
-		mainProductPrice, setMainProductPrice,
-		monkExpense,
-		addOnProducts, setAddOnProducts,
-		cartItem, setCartItem, createToCart
-	} = useProduct();
+		const resultArr = []
+
+		selectedCart.CartItem.forEach((item) => {
+			// if(item.product.type === "MAIN") {
+			// 	setSelectedProduct(item.product.name)
+			// }
+
+			switch (item.product.type) {
+				case "MAIN":
+					setSelectedProduct(item.product.name)
+					break;
+				case "MONK":
+					setMonkAmount(item.amount)
+					break;
+				case "ADD_ON":
+					setAddOn(true)
+					setAddOnPrice(item.product.price)
+					break
+			}
+
+			resultArr.push({
+				productId: item.product.id,
+				amount: +item.amount,
+				totalPrice: item.product.price * item.amount,
+				type: item.product.type
+			})
+		})
+
+		setCartItem(resultArr)
+
+		setEventDate(selectedCart.eventDate)
+
+	}
+
+
+	useEffect(() => {
+		// const savedProductName = localStorage.getItem('selectedProductName');
+		// if (savedProductName) {
+		// 	setSelectedProduct(savedProductName);
+		// }
+		if (id) {
+			fetchCartById(id);
+		}
+		if(selectedProduct) {
+			const defaultProduct =  mainProducts.find(item => item.name === selectedProduct)
+			addToCart(defaultProduct)
+		}
+	}, []);
 
 
 	const calPrice = () => {
@@ -94,7 +148,9 @@ export default function Product() {
 			type: item.type
 		})
 		setCartItem(newCartItem);
+
 	}
+
 
 
 	const handleAddToCart = async () => {
@@ -112,8 +168,10 @@ export default function Product() {
 		}
 
 		await createToCart(reqBody);
+		setCartItem([])
 		navigate('/cart')
 
+		console.log(cartItem)
 	}
 
 	// console.log(cartItem)
@@ -211,8 +269,12 @@ export default function Product() {
 						<div>
 							<h4>กำหนดวัน</h4>
 							<DatePicker
+								value={dayjs(eventDate)}
 								// onChange={(e) => setDate(new Date(e.$d).toLocaleString())}
-								onChange={(e) => setEventDate(new Date(e.$d).toISOString())}
+								onChange={(e) => {
+									console.log(e)
+									setEventDate(e.$d)
+								}}
 							/>
 
 						</div>

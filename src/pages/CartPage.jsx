@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import Modal from "../components/Modal";
 import Product from "../features/product/Product";
 import UpdateCart from "../features/cart/UpdateCart";
+import { useProduct } from "../hooks/use-product";
+import AddOn from "../features/product/AddOn";
 
 
 export default function CartPage() {
@@ -20,6 +22,18 @@ export default function CartPage() {
 	const [carts, setCarts] = useState([])
 	const [sumTotalPrice, setSumTotalPrice] = useState();
 
+
+	const {
+		mainProducts,
+		selectedProduct, setSelectedProduct,
+		mainProductPrice, setMainProductPrice,
+		monkExpense,
+		monkAmount, setMonkAmount,
+		addOnProducts, setAddOnProducts,
+		addOn, setAddOn,
+		addOnPrice, setAddOnPrice,
+		cartItem, setCartItem, createToCart
+	} = useProduct();
 
 
 	const fetchCart = async () => {
@@ -40,12 +54,26 @@ export default function CartPage() {
 		}
 	};
 
-	const updateCart = async (cartId) => {
-		try {
-			const response = await axios.patch(`/cart/update/${cartId}`);
-		} catch (err) {
-			console.log(err)
-		}
+	// const updateCart = async (cartId) => {
+	// 	try {
+	// 		const response = await axios.patch(`/cart/update/${cartId}`, {
+	// 			monkAmount: monkAmount,
+	// 			addOn: addOn // or any other data you want to update
+	// 		});
+	// 		if (response.status === 200) {
+	// 			fetchCart(); // refresh the cart list after updating.
+	// 		}
+	// 	} catch (err) {
+	// 		console.log(err)
+	// 	}
+	// }
+
+
+	const [selectedCartId, setSelectedCartId] = useState();
+
+	let cartId;
+	const selectedCartById = (id) => {
+		cartId = id;
 	}
 
 
@@ -55,6 +83,7 @@ export default function CartPage() {
 		return sum;
 	}
 
+
 	const handlePayment = () => [
 		navigate('/payment')
 	]
@@ -63,10 +92,7 @@ export default function CartPage() {
 	return (
 		<>
 
-		{/* <UpdateCart/> */}
-
-
-			<div className="container flex flex-col gap-4 p-20 items-center justify-between">
+			<div div className="container flex flex-col gap-4 p-20 items-center justify-between">
 
 				<h1 className="text-4xl text-center">Cart</h1>
 
@@ -88,29 +114,54 @@ export default function CartPage() {
 						)
 					});
 
-					console.log(cart)
+
 					sumPrice(cart.totalPrice);
 
 					return (
-						<div key={uuidv4()} className="p-6 flex justify-between items-end gap-4 border-2 border-orange-400 rounded-xl w-2/3" >
+						<div
+							key={uuidv4()}
+							className="p-6 flex justify-between items-end gap-4 border-2 border-orange-400 rounded-xl w-2/3"
+
+						>
+							{/* {console.log(cart)} */}
 							<div>
 								{productData}
+								<p className="text-gray-400 mt-3">วันจัดงาน : {cart.eventDate.split('T')[0]}</p>
 							</div>
+
 							<div className="flex flex-col justify-between">
 								<p className="text-lg text-right">รวม : {cart.totalPrice} </p>
 								<div>
 									<button
 										className="bg-gray-400 text-white rounded-3xl py-1 px-4 mr-2"
 										onClick={() => deleteCart(cart.id)}
-									>ลบ</button>
-									<button className="bg-gray-400 text-white rounded-3xl py-1 px-4 mr-2">แก้ไข</button>
+									>
+										ลบ
+									</button>
+
+									<button
+										className="bg-gray-400 text-white rounded-3xl py-1 px-4 mr-2"
+										onClick={() => {
+											selectedCartById(cart.id)
+											// console.log(cartId)
+											navigate(`update/${cartId}`)
+										}}
+									>
+										แก้ไข
+									</button>
+
 									<button
 										className="bg-orange-400 text-white rounded-3xl py-1 px-4"
-										onClick={handlePayment}>
+										onClick={() => {
+
+											handlePayment()
+
+										}}>
 										ชำระเงิน
 									</button>
 								</div>
 							</div>
+
 						</div>
 					)
 				})}
@@ -124,7 +175,10 @@ export default function CartPage() {
 					{/* ---- BUTTON : ADD TO CART ---- */}
 					<button
 						className='bg-orange-200 rounded-lg p-2'
-						onClick={handlePayment}
+						onClick={() => {
+							handlePayment()
+
+						}}
 					>
 						ชำระทุกรายการ
 					</button>

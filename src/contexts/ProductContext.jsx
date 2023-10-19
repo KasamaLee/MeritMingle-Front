@@ -19,16 +19,12 @@ export default function ProductContextProvider({ children }) {
     const [mainProducts, setMainProducts] = useState([]);
     const [mainProductPrice, setMainProductPrice] = useState();
 
+    // array ของ addOn
     const [addOnProducts, setAddOnProducts] = useState([]);
 
 
     // monk
     const [monkExpense, setMonkExpense] = useState({});
-
-    // cartItem
-    const [cartItem, setCartItem] = useState([])
-
-
 
     const createToCart = async (input) => {
 
@@ -93,7 +89,7 @@ export default function ProductContextProvider({ children }) {
                 selectedProduct, setSelectedProduct,
                 mainProductPrice, setMainProductPrice,
                 addOnProducts, setAddOnProducts,
-                cartItem, setCartItem, createToCart
+                createToCart
             }}
         >
             {children}

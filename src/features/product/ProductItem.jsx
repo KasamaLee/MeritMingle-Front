@@ -6,16 +6,16 @@ export default function ProductItem({ productItem, addToCart }) {
 
     const { selectedProduct, setSelectedProduct, mainProductPrice, setMainProductPrice, } = useProduct();
 
-    useEffect(() => {
-        const savedProductName = localStorage.getItem('selectedProductName');
-        if (savedProductName) {
-            setSelectedProduct(savedProductName);
-            if (productItem.name === savedProductName) {
-                console.log(productItem)
-                addToCart(productItem)
-            }
-        }
-    }, []);
+    // useEffect(() => {
+    //     const savedProductName = localStorage.getItem('selectedProductName');
+    //     if (savedProductName) {
+    //         setSelectedProduct(savedProductName);
+    //         if (productItem.name === savedProductName) {
+    //             console.log(productItem)
+    //             addToCart(productItem)
+    //         }
+    //     }
+    // }, []);
 
 
     // console.log(productItem)

@@ -15,6 +15,7 @@ export default function HomePage() {
 
     return (
         <>
+    
             {/* ---- HERO SECTION ---- */}
             <div className=" bg-gray-200 ">
                 <div className="container flex justify-between py-6">
@@ -44,7 +45,7 @@ export default function HomePage() {
                             key={index}
                             onClick={() => {
                                 setSelectedProduct(productItem.name)
-                                localStorage.setItem('selectedProductName', productItem.name);
+                                // localStorage.setItem('selectedProductName', productItem.name);
                                 setMainProductPrice(productItem.price)
                             }}>
                             <div className="bg-gray-300 flex justify-center items-center p-10 hover:shadow-lg">

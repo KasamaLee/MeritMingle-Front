@@ -24,6 +24,7 @@ export default function AuthContextProvider({ children }) {
         }
     }, []);
 
+
     const getMe = async () => {
         try {
             const response = await axios.get('/auth/me')
@@ -71,7 +72,7 @@ export default function AuthContextProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ authUser, setAuthUser, login, register, logout, isOpen, setIsOpen }}> {children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ authUser, setAuthUser, login, register, logout, isOpen, setIsOpen, initialLoading }}> {children}</AuthContext.Provider>
     )
 }
 

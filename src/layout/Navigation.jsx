@@ -6,21 +6,42 @@ import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 
 export default function Navigation() {
 
+    const { authUser } = useAuth();
+
     return (
-        <nav>
-            <ul className='flex justify-center gap-4 hover items-baseline '>
-                <li>
-                    <Link to='/'>Home</Link>
-                </li>
-                <li>
-                    <Link to='/contact'>Contact</Link>
-                </li>
-                <li>
-                    <Link to='/cart'>
-                        <FontAwesomeIcon icon={faShoppingBag} size='xl' />
-                    </Link>
-                </li>
-            </ul>
-        </nav>
+
+        <>
+            {!authUser ? (
+                <nav>
+                    <ul className='flex justify-center gap-4 hover items-baseline '>
+                        <li>
+                            <Link to='/'>Home</Link>
+                        </li>
+                        <li>
+                            <Link to='/contact'>Contact</Link>
+                        </li>
+
+                    </ul>
+                </nav>
+            ) : (
+                <nav>
+                    <ul className='flex justify-center gap-4 hover items-baseline '>
+                        <li>
+                            <Link to='/'>Home</Link>
+                        </li>
+                        <li>
+                            <Link to='/contact'>Contact</Link>
+                        </li>
+                        <li>
+                            <Link to='/cart'>
+                                <FontAwesomeIcon icon={faShoppingBag} size='xl' />
+                            </Link>
+                        </li>
+
+                    </ul>
+                </nav>
+            )}
+        </>
+
     )
 }

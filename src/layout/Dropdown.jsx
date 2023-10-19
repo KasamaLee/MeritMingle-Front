@@ -36,7 +36,7 @@ export default function Dropdown() {
         <div className='relative' ref={dropDownEl}>
             <button className='bg-orange-500 text-white rounded-3xl px-4 py-1' onClick={() => setIsOpen(!isOpen)}>
                 <span className='mr-1'>{authUser.firstName}</span>
-                <FontAwesomeIcon icon={faChevronDown} size="md" color="white" />
+                <FontAwesomeIcon icon={faChevronDown} color="white" />
             </button>
 
             {isOpen && (
