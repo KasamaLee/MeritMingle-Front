@@ -8,7 +8,7 @@ import { useProduct } from '../../hooks/use-product';
 
 // const center = { lat: 13.7462, lng: 100.5347 }
 
-export default function Map({searchLocation, setSearchLocation, mapClicked, setMapClicked, }) {
+export default function Map({searchLocation, setSearchLocation, mapClicked, setMapClicked }) {
 
 
     const [libraries, setLibraries] = useState(['places']);

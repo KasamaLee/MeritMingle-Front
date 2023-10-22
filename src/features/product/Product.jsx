@@ -52,21 +52,23 @@ export default function Product() {
 	// totalPrice
 	const [totalPrice, setTotalPrice] = useState(0);
 
+
 	const fetchCartById = async (id) => {
 		const response = await axios.get(`/cart/get/${id}`)
 		const selectedCart = response.data.cart;
 		console.log(selectedCart)
 
+		setSearchLocation( {lat: selectedCart.location.lat, lng: selectedCart.location.lng } )
+		// { lat: e.latLng.lat(), lng: e.latLng.lng() };
+
 		const resultArr = []
 
-		selectedCart.CartItem.forEach((item) => {
-			// if(item.product.type === "MAIN") {
-			// 	setSelectedProduct(item.product.name)
-			// }
+		selectedCart.CartItem.map((item) => {
 
 			switch (item.product.type) {
 				case "MAIN":
 					setSelectedProduct(item.product.name)
+					setMainProductPrice(item.product.price)
 					break;
 				case "MONK":
 					setMonkAmount(item.amount)
@@ -100,8 +102,8 @@ export default function Product() {
 		if (id) {
 			fetchCartById(id);
 		}
-		if(selectedProduct) {
-			const defaultProduct =  mainProducts.find(item => item.name === selectedProduct)
+		if (selectedProduct) {
+			const defaultProduct = mainProducts.find(item => item.name === selectedProduct)
 			addToCart(defaultProduct)
 		}
 	}, []);
@@ -151,8 +153,6 @@ export default function Product() {
 
 	}
 
-
-
 	const handleAddToCart = async () => {
 
 		if (!authUser) {
@@ -161,13 +161,18 @@ export default function Product() {
 		}
 		const reqBody = {
 			totalPrice: calPrice(),
-			lat: mapClicked.lat,
-			lng: mapClicked.lng,
+			lat: mapClicked?.lat || searchLocation?.lat,
+			lng: mapClicked?.lng || searchLocation?.lng,
 			eventDate: eventDate,
 			cartItem: cartItem,
 		}
 
-		await createToCart(reqBody);
+		if (id) {
+			const response = await axios.patch(`/cart/update/${id}`, reqBody);
+		} else {
+			await createToCart(reqBody);
+		}
+
 		setCartItem([])
 		navigate('/cart')
 
@@ -314,7 +319,8 @@ export default function Product() {
 					className='bg-orange-200 rounded-lg p-2'
 					onClick={handleAddToCart}
 				>
-					add to cart
+					{id ? ('update cart') : ('add to cart')}
+
 				</button>
 			</div>
 

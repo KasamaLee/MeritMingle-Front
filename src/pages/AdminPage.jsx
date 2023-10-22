@@ -1,26 +1,161 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
+
+import { useEffect } from 'react';
+import { useState } from 'react'
+import axios from '../config/axios'
+import { ToggleSwitch, Tooltip } from 'flowbite-react';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlassPlus } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function AdminPage() {
+
+	const [orders, setOrders] = useState([]);
+	const [tableData, setTableData] = useState([]);
+
+
+	useEffect(() => {
+		fetchOrder();
+		console.log(orders)
+	}, [])
+
+	const fetchOrder = async () => {
+		const response = await axios.get('/order/get')
+		setOrders(response.data.orders)
+		orderMapping(response.data.orders)
+	}
+
+	let sum = 0;
+	const sumPrice = (totalPrice) => {
+		sum += totalPrice;
+		return sum;
+	}
+
+	let currentStatus;
+	const addStatus = (status) => {
+		if (status) {
+			currentStatus = 'ชำระเงินแล้ว'
+		} else {
+			currentStatus = 'กำลังรอการตรวจสอบ';
+		}
+	}
+
+	const handlePaymentStatus = async (updatedPaymentId, status) => {
+		const response = await axios.patch('/order/updatePaymentStatus', {updatedPaymentId, status})
+		console.log(response)
+	}
+
+	const orderMapping = (orders) => {
+		const result = orders.map(order => {
+			// "OrderItem": [...]
+			const addOn = order.OrderItem.find(item => item.product.type === 'ADD_ON')
+			const monk = order.OrderItem.find(item => item.product.type === 'MONK')
+			const main = order.OrderItem.find(item => item.product.type === 'MAIN')
+
+			return {
+				id: order.id,
+				totalPrice: order.totalPrice,
+				firstName: order.user.firstName,
+				lastName: order.user.lastName,
+				email: order.user.email,
+				mobile: order.user.mobile,
+				paymentId: order.paymentId,
+				status: order.payment.status,
+				slipURL: order.payment.slipURL,
+				addOn: addOn ? 'รับ' : 'ไม่รับ',
+				monkAmount: monk.amount,
+				main: main.product.name,
+			}
+		})
+		setTableData(result);
+	}
+
+	const toggleStatus = (paymentId) => {
+
+		const newTableData = tableData.map(eachRecord => {
+			if(eachRecord.paymentId === paymentId) {
+				return {
+					...eachRecord,
+					status: !eachRecord.status
+				}
+			} else {
+				return eachRecord
+			}
+		})
+
+		setTableData(newTableData)
+	}
+
+	// console.log(tableData)
+
+
 	return (
-		<div className="container flex justify-center gap-10 p-10">
+		<div className='container py-20'>
+			<h1 className="text-4xl text-center">Order</h1>
 
-			<div className="bg-gray-300 p-10 rounded-xl" >
-				<FontAwesomeIcon icon={faPlusSquare} />
-				<span className="ml-2">
-					Add new product
-				</span>
-			</div>
-			
-			<div className="bg-gray-300 p-10 rounded-xl" >
-				<FontAwesomeIcon icon={faPlusSquare} />
-				<span className="ml-2">
-					Add new product
-				</span>
-			</div>
 
+			<table className="min-w-full">
+				<thead>
+					<tr >
+						<th className='bg-orange-200  border-2 border-gray-400'>payment id</th>
+						<th className='bg-orange-200  border-2 border-gray-400'>รายการ</th>
+						<th className='bg-orange-200  border-2 border-gray-400'>ชื่อ</th>
+						<th className='bg-orange-200  border-2 border-gray-400'>นามสกุล</th>
+						<th className='bg-orange-200  border-2 border-gray-400'>อีเมลล์</th>
+						<th className='bg-orange-200  border-2 border-gray-400'>โทรศัพท์</th>
+						<th className='bg-orange-200  border-2 border-gray-400'>สังฆทาน</th>
+						<th className='bg-orange-200  border-2 border-gray-400'>จำนวนนินมต์</th>
+						<th className='bg-orange-200  border-2 border-gray-400'>ราคา</th>
+						<th className='bg-orange-200  border-2 border-gray-400'>สลิป</th>
+						<th className='bg-orange-200  border-2 border-gray-400'>สถานะการชำระเงิน</th>
+					</tr>
+				</thead>
+				<tbody>
+					{tableData.map((eachColumn, index) => {
+						return (
+							<tr key={index}>
+								<td className="border-2 border-gray-400">{eachColumn.paymentId}</td>
+								<td className="border-2 border-gray-400">{eachColumn.main}</td>
+								<td className="border-2 border-gray-400">{eachColumn.firstName}</td>
+								<td className="border-2 border-gray-400">{eachColumn.lastName}</td>
+								<td className="border-2 border-gray-400">{eachColumn.email}</td>
+								<td className="border-2 border-gray-400">{eachColumn.mobile}</td>
+								<td className="border-2 border-gray-400">{eachColumn.addOn}</td>
+								<td className="border-2 border-gray-400">{eachColumn.monkAmount}</td>
+								<td className="border-2 border-gray-400">{eachColumn.totalPrice}</td>
+								<td className="border-2 border-gray-400 image-container">
+									<a href={eachColumn.slipURL} target='_blank' className='relative'>
+										<FontAwesomeIcon icon={faMagnifyingGlassPlus} color='white' size='xl' className='absolute top-1/3 left-1/3' />
+										<img src={eachColumn.slipURL} className='w-24' />
+									</a>
+								</td>
+
+								<td className="border-2 border-gray-400 ">
+									<div className='flex flex-col items-center gap-1'>
+										{eachColumn.status ? 'จ่ายเงินแล้ว' : 'รอการตรวจสอบ'}
+
+										<div className="flex max-w-md flex-col gap-4" id="toggle">
+											<ToggleSwitch checked={eachColumn.status} onChange={() => {
+												if (!eachColumn.status) {
+													toggleStatus(eachColumn.paymentId)
+													handlePaymentStatus(eachColumn.paymentId, true)
+												} else {
+													handlePaymentStatus(eachColumn.paymentId, false)
+													toggleStatus(eachColumn.paymentId)
+												}
+											}}
+											/>
+										</div>
+									</div>
+								</td>
+							</tr>
+						)
+					})}
+				</tbody>
+			</table>
 
 		</div>
 	)
 }
+
+

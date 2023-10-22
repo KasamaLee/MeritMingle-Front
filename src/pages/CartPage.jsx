@@ -16,25 +16,12 @@ export default function CartPage() {
 		fetchCart();
 	}, [])
 
-	// Navigate
-	const navigate = useNavigate();
 
-	const [carts, setCarts] = useState([])
+	const { carts, setCarts } = useProduct();
 	const [sumTotalPrice, setSumTotalPrice] = useState();
 
-
-	const {
-		mainProducts,
-		selectedProduct, setSelectedProduct,
-		mainProductPrice, setMainProductPrice,
-		monkExpense,
-		monkAmount, setMonkAmount,
-		addOnProducts, setAddOnProducts,
-		addOn, setAddOn,
-		addOnPrice, setAddOnPrice,
-		cartItem, setCartItem, createToCart
-	} = useProduct();
-
+	// Navigate
+	const navigate = useNavigate();
 
 	const fetchCart = async () => {
 		const response = await axios.get('/cart/get')
@@ -54,22 +41,6 @@ export default function CartPage() {
 		}
 	};
 
-	// const updateCart = async (cartId) => {
-	// 	try {
-	// 		const response = await axios.patch(`/cart/update/${cartId}`, {
-	// 			monkAmount: monkAmount,
-	// 			addOn: addOn // or any other data you want to update
-	// 		});
-	// 		if (response.status === 200) {
-	// 			fetchCart(); // refresh the cart list after updating.
-	// 		}
-	// 	} catch (err) {
-	// 		console.log(err)
-	// 	}
-	// }
-
-
-	const [selectedCartId, setSelectedCartId] = useState();
 
 	let cartId;
 	const selectedCartById = (id) => {
@@ -84,20 +55,17 @@ export default function CartPage() {
 	}
 
 
-	const handlePayment = () => [
-		navigate('/payment')
-	]
-
 
 	return (
 		<>
 
-			<div div className="container flex flex-col gap-4 p-20 items-center justify-between">
+			<div className="container flex flex-col gap-4 p-20 items-center justify-between">
 
 				<h1 className="text-4xl text-center">Cart</h1>
 
 				{carts.map((cart) => {
-					const productData = cart.CartItem.map(item => {
+
+					const cartData = cart.CartItem.map(item => {
 						// console.log(item)
 						const productNames = item.product.name
 
@@ -108,9 +76,9 @@ export default function CartPage() {
 						const productPrice = item.totalPrice
 
 						return productAmount ? (
-							<p>{`${productNames} ${productAmount} รูป : ${productPrice}`}</p>
+							<p key={uuidv4()}>{`${productNames} ${productAmount} รูป : ${productPrice}`}</p>
 						) : (
-							<p>{`${productNames} : ${productPrice}`}</p>
+							<p key={uuidv4()}>{`${productNames} : ${productPrice}`}</p>
 						)
 					});
 
@@ -121,11 +89,10 @@ export default function CartPage() {
 						<div
 							key={uuidv4()}
 							className="p-6 flex justify-between items-end gap-4 border-2 border-orange-400 rounded-xl w-2/3"
-
 						>
 							{/* {console.log(cart)} */}
 							<div>
-								{productData}
+								{cartData}
 								<p className="text-gray-400 mt-3">วันจัดงาน : {cart.eventDate.split('T')[0]}</p>
 							</div>
 
@@ -142,9 +109,9 @@ export default function CartPage() {
 									<button
 										className="bg-gray-400 text-white rounded-3xl py-1 px-4 mr-2"
 										onClick={() => {
-											selectedCartById(cart.id)
+											// selectedCartById(cart.id)
 											// console.log(cartId)
-											navigate(`update/${cartId}`)
+											navigate(`update/${cart.id}`)
 										}}
 									>
 										แก้ไข
@@ -153,9 +120,8 @@ export default function CartPage() {
 									<button
 										className="bg-orange-400 text-white rounded-3xl py-1 px-4"
 										onClick={() => {
-
-											handlePayment()
-
+											// selectedCartById(cart.id)
+											navigate(`/payment/${cart.id}`)
 										}}>
 										ชำระเงิน
 									</button>
@@ -176,8 +142,7 @@ export default function CartPage() {
 					<button
 						className='bg-orange-200 rounded-lg p-2'
 						onClick={() => {
-							handlePayment()
-
+							navigate(`/payment/all`)
 						}}
 					>
 						ชำระทุกรายการ

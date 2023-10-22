@@ -10,17 +10,20 @@ import { useAuth } from '../hooks/use-auth'
 import Payment from '../pages/Payment'
 import Profile from '../pages/Profile'
 import Loading from '../components/Loading'
+import OrderPage from '../pages/OrderPage'
+import AdminLayout from '../layout/AdminLayout'
+import EditProductPage from '../pages/EditProductPage'
 
 
 
 export default function Route() {
-    const { authUser} = useAuth();
+    const { authUser } = useAuth();
 
     // if (initialLoading) {
     //     return <Loading />
     // }
 
-    let router =[]
+    let router = []
 
     if (!authUser) {
         console.log('no AuthUser')
@@ -38,24 +41,28 @@ export default function Route() {
         ])
     }
 
-    console.log(authUser)
+    // console.log(authUser)
 
 
 
     if (authUser?.role === 'USER') {
-        console.log('auth user')
+        // console.log('auth user')
+
         router = createBrowserRouter([
             {
                 path: '/',
-                element: <Layout />,
+                element:
+                 <Layout />
+                 ,
                 children: [
                     { path: '', element: <HomePage /> },
                     { path: 'product', element: <Product /> },
                     { path: 'contact', element: <ContactPage /> },
                     { path: 'cart', element: <CartPage /> },
                     { path: 'cart/update/:id', element: <Product /> },
-                    { path: 'payment', element: <Payment /> },
+                    { path: 'payment/:id', element: <Payment /> },
                     { path: 'profile', element: <Profile /> },
+                    { path: 'order', element: <OrderPage /> },
                 ]
             },
 
@@ -67,10 +74,10 @@ export default function Route() {
         router = createBrowserRouter([
             {
                 path: '/',
-                element: <Layout />,
+                element: <AdminLayout />,
                 children: [
                     { path: '', element: <AdminPage /> },
-
+                    { path: 'edit-product', element: <EditProductPage /> },
                 ]
             },
 

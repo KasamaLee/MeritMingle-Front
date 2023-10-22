@@ -22,9 +22,14 @@ export default function ProductContextProvider({ children }) {
     // array ของ addOn
     const [addOnProducts, setAddOnProducts] = useState([]);
 
-
     // monk
     const [monkExpense, setMonkExpense] = useState({});
+
+    // carts[] Array that fetch from backend
+    const [carts, setCarts] = useState([])
+
+
+
 
     const createToCart = async (input) => {
 
@@ -55,8 +60,6 @@ export default function ProductContextProvider({ children }) {
         console.log(response.data);
 
     }
-
-
 
     const fetchProduct = async () => {
         const response = await axios.get('/product/get', {})
@@ -89,7 +92,9 @@ export default function ProductContextProvider({ children }) {
                 selectedProduct, setSelectedProduct,
                 mainProductPrice, setMainProductPrice,
                 addOnProducts, setAddOnProducts,
-                createToCart
+                createToCart,
+                carts, setCarts,
+                fetchProduct,
             }}
         >
             {children}

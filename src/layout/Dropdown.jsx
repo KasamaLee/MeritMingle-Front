@@ -56,8 +56,23 @@ export default function Dropdown() {
                         <hr className='m-2 border' />
 
                         <div
+                            className='flex gap-4 p-2 items-center rounded-xl hover:bg-gray-100 cursor-pointer'
+                            onClick={() => navigate('/order')}
+                        >
+
+                            <div>
+                                <div className='text-sm text-gray-500' >ประวัติการสั่งซื้อ</div>
+                            </div>
+                        </div>
+                        <hr className='m-2 border' />
+
+
+                        <div
                             className='flex gap-4 p-2 items-center cursor-pointer hover:bg-gray-100 rounded-xl'
-                            onClick={() => logout()}
+                            onClick={() =>{ 
+                                logout()
+                                navigate('/')
+                            }}
                         >
                             <div className='bg-gray-300 h-9 aspect-square rounded-full flex justify-center items-center'>
                                 <FontAwesomeIcon icon={faSignOutAlt} />

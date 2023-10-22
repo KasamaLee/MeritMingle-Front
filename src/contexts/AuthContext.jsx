@@ -24,6 +24,8 @@ export default function AuthContextProvider({ children }) {
         }
     }, []);
 
+    
+
 
     const getMe = async () => {
         try {
@@ -60,6 +62,7 @@ export default function AuthContextProvider({ children }) {
     const logout = () => {
         removeAccessToken();
         setAuthUser(null)
+
     }
 
     const register = async (input, onCloseModal) => {
@@ -72,7 +75,7 @@ export default function AuthContextProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ authUser, setAuthUser, login, register, logout, isOpen, setIsOpen, initialLoading }}> {children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ authUser, setAuthUser, login, register, logout, isOpen, setIsOpen, initialLoading, setInitialLoading }}> {children}</AuthContext.Provider>
     )
 }
 

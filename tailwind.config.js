@@ -12,5 +12,9 @@ export default {
     require("daisyui"),
     require('flowbite/plugin')
   ],
+  fontFamily: {
+    "Kanit": ["Kanit", "sans-serif"],
+    "Noto Sans Thai": ["Noto Sans Thai", "sans-serif"]
+  }
 }
 
