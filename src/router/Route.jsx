@@ -78,6 +78,7 @@ export default function Route() {
                 children: [
                     { path: '', element: <AdminPage /> },
                     { path: 'edit-product', element: <EditProductPage /> },
+                    { path: 'edit-product/update/:id', element: <EditProductPage /> },
                 ]
             },
 

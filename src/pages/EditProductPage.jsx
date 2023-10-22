@@ -7,10 +7,12 @@ import axios from '../config/axios';
 import { useProduct } from '../hooks/use-product';
 import Modal from '../components/Modal';
 import { useRef } from 'react';
+import { useAuth } from '../hooks/use-auth';
 
 export default function EditProductPage() {
 
 	const { mainProducts, setMainProducts, fetchProduct } = useProduct();
+	const { initialLoading, setInitialLoading } = useAuth();
 
 	const [isOpenModal, setIsOpenModal] = useState(false)
 	const [productName, setProductName] = useState('');
@@ -18,38 +20,25 @@ export default function EditProductPage() {
 	const [productDesc, setProductDesc] = useState('');
 	const [fileImg, setFileImg] = useState(null);
 	const [defaultImg, setDefaultImage] = useState(null);
+	const [selectedProductId, setSelectedProductId] = useState(null);
 
 	const [isUpdating, setIsUpdating] = useState(true);
+
+	useEffect(() => {
+		fetchProduct();
+	}, [])
 
 	console.log(mainProducts)
 
 
 	const inputEl = useRef(null);
 
-
-	const handleAddProduct = async () => {
-		try {
-			const newProduct = new FormData();
-			newProduct.append('name', productName);
-			newProduct.append('price', String(productPrice));
-			newProduct.append('desc', productDesc);
-			newProduct.append('type', 'MAIN');
-			newProduct.append('productImage', fileImg);
-
-			const response = await axios.post('/product/add', newProduct)
-			console.log(response)
-			setIsOpenModal(false);
-
-		} catch (err) {
-			console.log(err)
-		}
-	}
-
 	const defaultProductData = (product) => {
 		setProductName(product.name)
 		setProductPrice(product.price)
-		setProductDesc(product.desc)
+		setProductDesc(product.desc || '')
 		setDefaultImage(product.productImage)
+		setSelectedProductId(product.id)
 	}
 
 	const deleteDefaultValue = () => {
@@ -60,20 +49,53 @@ export default function EditProductPage() {
 		setFileImg(null)
 	}
 
-	const handleUpdateProduct = async () => {
+	const handleAddProduct = async () => {
 		try {
+			const newProduct = new FormData();
+			newProduct.append('name', productName);
+			newProduct.append('price', String(productPrice));
+			newProduct.append('desc', productDesc || '');
+			newProduct.append('type', 'MAIN');
+			newProduct.append('productImage', fileImg);
+
+			const response = await axios.post('/product/add', newProduct)
+			// console.log(response)
+			setIsOpenModal(false);
+			fetchProduct()
 
 		} catch (err) {
+			console.log(err)
+		} 
+	}
 
+
+	const handleUpdateProduct = async (productId) => {
+		try {
+			setInitialLoading(true)
+			const updatedProduct = new FormData();
+			updatedProduct.append('name', productName);
+			updatedProduct.append('price', String(productPrice));
+			updatedProduct.append('desc', productDesc || '');
+			// updatedProduct.append('type', 'MAIN');
+			updatedProduct.append('productImage', fileImg);
+
+			const response = await axios.patch(`/product/update/${productId}`, updatedProduct)
+			// console.log(response)
+
+			setIsOpenModal(false);
+			fetchProduct()
+
+		} catch (err) {
+			console.log(err)
+		} finally {
+			setInitialLoading(false)
 		}
 	}
 
 	const handleDeleteProduct = async (productId) => {
 		try {
 			const response = await axios.delete(`/product/delete/${productId}`)
-			if (response.status === 200) {
-				fetchProduct()
-			}
+
 		} catch (err) {
 			console.log("Error deleting product:", err)
 		}
@@ -168,7 +190,7 @@ export default function EditProductPage() {
 						<input
 							className='mr-4 rounded py-2 px-6 w-80 outline-none ring ring-gray-300 focus:ring focus:ring-orange-300 hover:ring hover:ring-orange-300'
 							placeholder='กรุณากรอกข้อมูล'
-							maxlength="30"
+							maxLength="30"
 							onChange={(e) => setProductName(e.target.value)}
 							value={productName}
 						/>
@@ -176,7 +198,7 @@ export default function EditProductPage() {
 							className='rounded py-2 px-6 w-80 outline-none ring ring-gray-300 focus:ring focus:ring-orange-300 hover:ring hover:ring-orange-300'
 							placeholder='ราคา'
 							onChange={(e) => setProductPrice(e.target.value)}
-							maxlength="10"
+							maxLength="10"
 							value={productPrice}
 						/>
 					</div>
@@ -185,7 +207,7 @@ export default function EditProductPage() {
 					<textarea
 						className='rounded py-2 px-6 outline-none ring ring-gray-300 focus:ring focus:ring-orange-300 hover:ring hover:ring-orange-300'
 						placeholder='...'
-						maxlength="500"
+						maxLength="500"
 						rows="4"
 						cols="50"
 						value={productDesc}
@@ -224,7 +246,7 @@ export default function EditProductPage() {
 					{isUpdating ? (
 						<button
 							className="bg-orange-500 text-white rounded-3xl px-4 py-1 cursor-pointer w-fit"
-							onClick={() => handleUpdateProduct()}
+							onClick={() => handleUpdateProduct(selectedProductId)}
 						>
 							<span className="ml-1 text-lg">Update product</span>
 						</button>
