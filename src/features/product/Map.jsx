@@ -4,12 +4,15 @@ import PlacesAutoComplete from "./PlacesAutoComplete"
 import { useState } from 'react';
 import { useMemo } from 'react';
 import { useProduct } from '../../hooks/use-product';
+import { useAuth } from '../../hooks/use-auth';
+
 
 
 // const center = { lat: 13.7462, lng: 100.5347 }
 
-export default function Map({ searchLocation, setSearchLocation, mapClicked, setMapClicked }) {
+export default function Map({ viewMode, location, searchLocation, setSearchLocation, mapClicked, setMapClicked }) {
 
+    const { authUser } = useAuth();
 
     const [libraries, setLibraries] = useState(['places']);
 
@@ -20,12 +23,12 @@ export default function Map({ searchLocation, setSearchLocation, mapClicked, set
 
     const center = useMemo(() => {
         // for admin
-
-        // if (location) {
-        //     return location;
-        // } else {
-        return { lat: 13.7462, lng: 100.5347 }
-        // }
+        if (location) {
+            // center of map
+            return location;
+        } else {
+            return { lat: 13.7462, lng: 100.5347 }
+        }
 
         // for user this code only is OK
         // return { lat: 13.7462, lng: 100.5347 }
@@ -48,25 +51,40 @@ export default function Map({ searchLocation, setSearchLocation, mapClicked, set
     }
 
     return (
-        <div>
-            <PlacesAutoComplete handleSetSearchLocation={handleSetSearchLocation}></PlacesAutoComplete>
-            <div>
+        <>
+            {viewMode ? (
+                <div>
+                    <GoogleMap
+                        center={location}
+                        mapContainerClassName='map-container'
+                        zoom={15}
+                    >
+                        <MarkerF position={location} />
 
-            <GoogleMap
-                center={searchLocation || center}
-                mapContainerClassName='map-container'
-                zoom={15}
-                // onClick={e=> console.log(e)}
-                onClick={handleClickLocation}
-            >
+                    </GoogleMap>
 
-                {/* ถามว่า select กับ clicked มีไหม ถ้ามีตัวในตัวหนึ่ง ให้ set position MarkerF */}
-                {/* เชค clicked ก่อน ถ้า null ไปดู selected */}
-                {(searchLocation || mapClicked) && <MarkerF position={mapClicked || searchLocation} />}
+                </div>
+            ) : (
+                <div>
+                    <GoogleMap
+                        center={searchLocation || center}
+                        mapContainerClassName='map-container'
+                        zoom={15}
+                        // onClick={e=> console.log(e)}
+                        onClick={handleClickLocation}
+                    >
+                        <PlacesAutoComplete handleSetSearchLocation={handleSetSearchLocation}></PlacesAutoComplete >
 
-            </GoogleMap>
-            </div>
+                        {/* ถามว่า select กับ clicked มีไหม ถ้ามีตัวในตัวหนึ่ง ให้ set position MarkerF */}
+                        {/* เชค clicked ก่อน ถ้า null ไปดู selected */}
+                        {(searchLocation || mapClicked) && <MarkerF position={mapClicked || searchLocation} />}
 
-        </div>
+                    </GoogleMap>
+                </div >
+            )
+            }
+        </>
+
+
     )
 }

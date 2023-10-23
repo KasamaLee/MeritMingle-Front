@@ -1,31 +1,26 @@
 import { useEffect } from "react";
 import axios from '../config/axios';
-import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom'
-import Modal from "../components/Modal";
-import Product from "../features/product/Product";
-import UpdateCart from "../features/cart/UpdateCart";
 import { useProduct } from "../hooks/use-product";
-import AddOn from "../features/product/AddOn";
+
 
 
 export default function CartPage() {
 
+	const { carts, setCarts } = useProduct();
+	
 	useEffect(() => {
 		fetchCart();
+		// console.log(carts)
 	}, [])
 
-
-	const { carts, setCarts } = useProduct();
-	const [sumTotalPrice, setSumTotalPrice] = useState();
 
 	// Navigate
 	const navigate = useNavigate();
 
 	const fetchCart = async () => {
 		const response = await axios.get('/cart/get')
-
 		const data = response.data.carts
 		setCarts(data)
 	}
@@ -42,12 +37,6 @@ export default function CartPage() {
 	};
 
 
-	let cartId;
-	const selectedCartById = (id) => {
-		cartId = id;
-	}
-
-
 	let sum = 0;
 	const sumPrice = (totalPrice) => {
 		sum += totalPrice;
@@ -55,25 +44,33 @@ export default function CartPage() {
 	}
 
 
-
 	return (
 		<>
-
 			<div className="container flex flex-col gap-4 p-20 items-center justify-between">
-
 				<h1 className="text-4xl text-center">Cart</h1>
 
 				{carts.map((cart) => {
+					// ราคารวมของแต่ละ cart
+					sumPrice(cart.totalPrice);
 
-					const cartData = cart.CartItem.map(item => {
-						// console.log(item)
-						const productNames = item.product.name
+					cart.CartItem.sort((a, b) => {
+						if (a.product.type === 'MAIN') return -1
+						if (a.product.type === 'MONK' && b.product.type !== 'MAIN') {
+							return -1
+						} else {
+							return 1
+						}
+					})
+
+					// CartItem: [{..}, {..}, {..}]
+					const cartData = cart.CartItem.map(eachCartItem => {
+						const productNames = eachCartItem.product.name
 
 						let productAmount;
-						if (item.product.type === "MONK") {
-							productAmount = item.amount;
+						if (eachCartItem.product.type === "MONK") {
+							productAmount = eachCartItem.amount;
 						}
-						const productPrice = item.totalPrice
+						const productPrice = eachCartItem.totalPrice
 
 						return productAmount ? (
 							<p key={uuidv4()}>{`${productNames} ${productAmount} รูป : ${productPrice}`}</p>
@@ -81,9 +78,6 @@ export default function CartPage() {
 							<p key={uuidv4()}>{`${productNames} : ${productPrice}`}</p>
 						)
 					});
-
-
-					sumPrice(cart.totalPrice);
 
 					return (
 						<div
@@ -131,7 +125,6 @@ export default function CartPage() {
 						</div>
 					)
 				})}
-
 			</div >
 
 			<div className=' bg-orange-400 w-full fixed bottom-0 p-4 z-10'>

@@ -99,7 +99,6 @@ export default function EditProductPage() {
 
 	const handleUpdateMonkExpense = async (monkId) => {
 		try {
-
 			const updatedMonkExpense = {
 				price: monkPrice
 			}
@@ -182,7 +181,7 @@ export default function EditProductPage() {
 				<h4>เพิ่มสินค้าใหม่</h4>
 
 				<div
-					className='flex justify-center bg-orange-400 text-white rounded-xl p-4 cursor-pointer'
+					className='flex justify-center bg-orange-400 text-white rounded-xl p-4 cursor-pointer relative'
 					onClick={() => {
 						setIsOpenModal(true)
 						setIsUpdating(false)
@@ -307,8 +306,6 @@ export default function EditProductPage() {
 							<span className="ml-1 text-lg">Add new product</span>
 						</button>
 					)}
-
-
 				</div>
 			</Modal >
 
