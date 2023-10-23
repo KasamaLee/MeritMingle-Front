@@ -11,7 +11,7 @@ import { useAuth } from '../hooks/use-auth';
 
 export default function EditProductPage() {
 
-	const { mainProducts, setMainProducts, fetchProduct } = useProduct();
+	const { mainProducts, setMainProducts, fetchProduct, monkExpense, setMonkExpense, addOnProducts, setAddOnProducts } = useProduct();
 	const { initialLoading, setInitialLoading } = useAuth();
 
 	const [isOpenModal, setIsOpenModal] = useState(false)
@@ -24,11 +24,16 @@ export default function EditProductPage() {
 
 	const [isUpdating, setIsUpdating] = useState(true);
 
+	const [monkPrice, setMonkPrice] = useState(monkExpense.price);
+	const [addOnPrice, setAddOnPrice] = useState(addOnProducts[0].price)
+
+
+	// console.log(addOnProducts)
+
 	useEffect(() => {
 		fetchProduct();
+		console.log(addOnProducts)
 	}, [])
-
-	console.log(mainProducts)
 
 
 	const inputEl = useRef(null);
@@ -65,7 +70,7 @@ export default function EditProductPage() {
 
 		} catch (err) {
 			console.log(err)
-		} 
+		}
 	}
 
 
@@ -92,6 +97,38 @@ export default function EditProductPage() {
 		}
 	}
 
+	const handleUpdateMonkExpense = async (monkId) => {
+		try {
+
+			const updatedMonkExpense = {
+				price: monkPrice
+			}
+
+			const response = await axios.patch(`/product/update/${monkId}`, updatedMonkExpense)
+			console.log(response)
+
+			fetchProduct();
+
+		} catch (err) {
+			console.log(err)
+		}
+	}
+
+	const handleUpdateAddOnPrice = async (addOnId) => {
+		try {
+			const updatedAddOnPrice = {
+				price: addOnPrice
+			}
+
+			const response = await axios.patch(`/product/update/${addOnId}`, updatedAddOnPrice)
+			console.log(response)
+
+			fetchProduct();
+		} catch (err) {
+			console.log(err)
+		}
+	}
+
 	const handleDeleteProduct = async (productId) => {
 		try {
 			const response = await axios.delete(`/product/delete/${productId}`)
@@ -107,12 +144,18 @@ export default function EditProductPage() {
 				<h4>ค่าบริการนิมนต์</h4>
 				<div className='relative flex gap-4 w-fit'>
 					<input
-						maxLength="10"
 						className='rounded py-2 px-6 w-80 outline-none ring ring-gray-300 focus:ring focus:ring-orange-300 hover:ring hover:ring-orange-300'
-						onChange={(e) => {
-						}}
+						maxLength="10"
+						type="number"
+						onChange={(e) => setMonkPrice(e.target.value)}
+						value={monkPrice}
 					/>
-					<button className="absolute right-2 top-1 bg-orange-400 text-white rounded-3xl px-4 py-1">ยืนยันการแก้ไข</button>
+					<button
+						className="absolute right-2 top-1 bg-orange-400 text-white rounded-3xl px-4 py-1"
+						onClick={() => handleUpdateMonkExpense(monkExpense.id)}
+					>
+						ยืนยันการแก้ไข
+					</button>
 				</div>
 			</div>
 
@@ -120,12 +163,18 @@ export default function EditProductPage() {
 				<h4>ค่าสังฆทาน</h4>
 				<div className='relative flex gap-4 w-fit'>
 					<input
-						maxLength="10"
 						className='rounded py-2 px-6 w-80 outline-none ring ring-gray-300 focus:ring focus:ring-orange-300 hover:ring hover:ring-orange-300'
-						onChange={(e) => {
-						}}
+						maxLength="10"
+						type="number"
+						onChange={(e) => setAddOnPrice(e.target.value)}
+						value={addOnPrice}
 					/>
-					<button className="absolute right-2 top-1 bg-orange-400 text-white rounded-3xl px-4 py-1">ยืนยันการแก้ไข</button>
+					<button
+						className="absolute right-2 top-1 bg-orange-400 text-white rounded-3xl px-4 py-1"
+						onClick={() => handleUpdateAddOnPrice(addOnProducts[0].id)}
+					>
+						ยืนยันการแก้ไข
+					</button>
 				</div>
 			</div>
 

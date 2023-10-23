@@ -2,7 +2,7 @@ import React from 'react'
 import { useProduct } from '../../hooks/use-product'
 import { useEffect } from 'react';
 
-export default function ProductItem({ productItem, addToCart }) {
+export default function ProductItem({ productItem, addToCart, error }) {
 
     const { selectedProduct, setSelectedProduct, mainProductPrice, setMainProductPrice, } = useProduct();
 
@@ -14,7 +14,6 @@ export default function ProductItem({ productItem, addToCart }) {
                 name={productItem.name}
                 onClick={() => {
                     setSelectedProduct(productItem.name)
-                    localStorage.setItem('selectedProductName', productItem.name);
                     setMainProductPrice(productItem.price)
                     addToCart(productItem);
                 }}
@@ -27,6 +26,8 @@ export default function ProductItem({ productItem, addToCart }) {
             <div className="flex flex-col">
                 <span className="text-gray-600 text-md">{productItem.name}</span>
             </div>
+            {error.productId && <InputErrorMessage message={error.productId} />}
+            
         </label>
     )
 }

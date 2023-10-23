@@ -8,7 +8,7 @@ import { useProduct } from '../../hooks/use-product';
 
 // const center = { lat: 13.7462, lng: 100.5347 }
 
-export default function Map({searchLocation, setSearchLocation, mapClicked, setMapClicked }) {
+export default function Map({ searchLocation, setSearchLocation, mapClicked, setMapClicked }) {
 
 
     const [libraries, setLibraries] = useState(['places']);
@@ -49,6 +49,9 @@ export default function Map({searchLocation, setSearchLocation, mapClicked, setM
 
     return (
         <div>
+            <PlacesAutoComplete handleSetSearchLocation={handleSetSearchLocation}></PlacesAutoComplete>
+            <div>
+
             <GoogleMap
                 center={searchLocation || center}
                 mapContainerClassName='map-container'
@@ -57,13 +60,12 @@ export default function Map({searchLocation, setSearchLocation, mapClicked, setM
                 onClick={handleClickLocation}
             >
 
-                <PlacesAutoComplete handleSetSearchLocation={handleSetSearchLocation}></PlacesAutoComplete>
-
                 {/* ถามว่า select กับ clicked มีไหม ถ้ามีตัวในตัวหนึ่ง ให้ set position MarkerF */}
                 {/* เชค clicked ก่อน ถ้า null ไปดู selected */}
                 {(searchLocation || mapClicked) && <MarkerF position={mapClicked || searchLocation} />}
 
             </GoogleMap>
+            </div>
 
         </div>
     )

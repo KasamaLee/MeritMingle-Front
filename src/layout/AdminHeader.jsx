@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom';
-import Navigation from "./Navigation";
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/use-auth';
-import Modal from '../components/Modal';
-import LoginAndRegister from '../features/auth/LoginAndRegister';
-import Dropdown from './Dropdown';
+
 
 export default function AdminHeader() {
 
     const { authUser, logout, isOpen, setIsOpen } = useAuth();
+
+    // Navigate
+    const navigate = useNavigate();
 
     return (
         <div className='shadow-md py-3'>
@@ -31,7 +32,11 @@ export default function AdminHeader() {
                     </nav>
 
 
-                    <button className="bg-orange-500 text-white rounded-3xl px-4 py-1" onClick={() => logout()}>
+                    <button className="bg-orange-500 text-white rounded-3xl px-4 py-1"
+                        onClick={() => {
+                            logout()
+                            navigate('/')
+                        }}>
                         Logout
                     </button>
 

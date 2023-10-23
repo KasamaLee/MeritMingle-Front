@@ -27,7 +27,7 @@ export default function PlacesAutoComplete({ handleSetSearchLocation }) {
 
 
     return (
-        <div className='relative h-12'>
+        <div className='mb-5 w-full relative'>
             <input
                 className='place-auto-location'
                 value={value}
@@ -36,8 +36,8 @@ export default function PlacesAutoComplete({ handleSetSearchLocation }) {
             />
 
             {/* ช่อง result : map result อออกมา */}
-            <div className='result-container'>
-                {status === 'OK' && data.map(({ place_id, description }) => {
+            {status === 'OK' && <div className='w-full border mt-3 top-[40px] absolute z-10 bg-white rounded-lg overflow-auto shadow-xl'>
+                {data.map(({ place_id, description }) => {
                     return (
                         <div
                             key={place_id}
@@ -48,7 +48,7 @@ export default function PlacesAutoComplete({ handleSetSearchLocation }) {
                         </div>
                     )
                 })}
-            </div>
+            </div>}
         </div>
     )
 }

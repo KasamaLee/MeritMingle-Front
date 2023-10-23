@@ -67,9 +67,7 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
             return setError(validationError);
         }
         setError({});
-
         register(input, onCloseModal )
-
     }
 
 
