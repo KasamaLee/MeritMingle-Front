@@ -11,7 +11,7 @@ export default function HomePage() {
 
 
     return (
-        <>
+        <>π
             {/* ---- HERO SECTION ---- */}
             <div className=" bg-gray-200 ">
                 <div className="container flex justify-between py-12">
@@ -39,8 +39,8 @@ export default function HomePage() {
                             key={index}
                             onClick={() => {
                                 setSelectedProduct(productItem.name)
-                                // localStorage.setItem('selectedProductName', productItem.name);
                                 setMainProductPrice(productItem.price)
+                                // localStorage.setItem('selectedProductName', productItem.name);
                             }}>
                             <div className="bg-gray-300 flex justify-center items-center hover:shadow-xl h-64 rounded-xl overflow-hidden relative">
                                 <h4 className='absolute text-white text-2xl z-10 bottom-6'>{productItem.name}</h4>

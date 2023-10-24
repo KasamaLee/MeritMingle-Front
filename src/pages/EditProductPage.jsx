@@ -24,15 +24,17 @@ export default function EditProductPage() {
 
 	const [isUpdating, setIsUpdating] = useState(true);
 
-	const [monkPrice, setMonkPrice] = useState(monkExpense.price);
-	const [addOnPrice, setAddOnPrice] = useState(addOnProducts[0].price)
+	const [monkPrice, setMonkPrice] = useState(null);
+	const [addOnPrice, setAddOnPrice] = useState(null)
 
 
 	// console.log(addOnProducts)
 
 	useEffect(() => {
 		fetchProduct();
-		console.log(addOnProducts)
+		setMonkPrice(monkExpense.price)
+		setAddOnPrice(addOnProducts[0].price)
+		// console.log(addOnProducts)
 	}, [])
 
 
@@ -56,6 +58,7 @@ export default function EditProductPage() {
 
 	const handleAddProduct = async () => {
 		try {
+			setInitialLoading(true)
 			const newProduct = new FormData();
 			newProduct.append('name', productName);
 			newProduct.append('price', String(productPrice));
@@ -70,6 +73,8 @@ export default function EditProductPage() {
 
 		} catch (err) {
 			console.log(err)
+		} finally {
+			setInitialLoading(false)
 		}
 	}
 
@@ -105,7 +110,6 @@ export default function EditProductPage() {
 
 			const response = await axios.patch(`/product/update/${monkId}`, updatedMonkExpense)
 			console.log(response)
-
 			fetchProduct();
 
 		} catch (err) {
@@ -121,7 +125,6 @@ export default function EditProductPage() {
 
 			const response = await axios.patch(`/product/update/${addOnId}`, updatedAddOnPrice)
 			console.log(response)
-
 			fetchProduct();
 		} catch (err) {
 			console.log(err)
@@ -131,7 +134,7 @@ export default function EditProductPage() {
 	const handleDeleteProduct = async (productId) => {
 		try {
 			const response = await axios.delete(`/product/delete/${productId}`)
-
+			fetchProduct();
 		} catch (err) {
 			console.log("Error deleting product:", err)
 		}
@@ -246,6 +249,7 @@ export default function EditProductPage() {
 							className='rounded py-2 px-6 w-80 outline-none ring ring-gray-300 focus:ring focus:ring-orange-300 hover:ring hover:ring-orange-300'
 							placeholder='ราคา'
 							onChange={(e) => setProductPrice(e.target.value)}
+							type='number'
 							maxLength="10"
 							value={productPrice}
 						/>

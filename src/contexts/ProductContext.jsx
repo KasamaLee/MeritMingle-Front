@@ -18,6 +18,7 @@ export default function ProductContextProvider({ children }) {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [mainProducts, setMainProducts] = useState([]);
     const [mainProductPrice, setMainProductPrice] = useState();
+    const [mainProductDesc, setMainProductDesc] = useState('');
 
     // array ของ addOn
     const [addOnProducts, setAddOnProducts] = useState([]);
@@ -91,6 +92,7 @@ export default function ProductContextProvider({ children }) {
                 monkExpense,
                 selectedProduct, setSelectedProduct,
                 mainProductPrice, setMainProductPrice,
+                mainProductDesc, setMainProductDesc,
                 addOnProducts, setAddOnProducts,
                 createToCart,
                 carts, setCarts,

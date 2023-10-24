@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 export default function ProductItem({ productItem, addToCart, error }) {
 
-    const { selectedProduct, setSelectedProduct, mainProductPrice, setMainProductPrice, } = useProduct();
+    const { selectedProduct, setSelectedProduct, mainProductPrice, setMainProductPrice, mainProductDesc, setMainProductDesc } = useProduct();
 
     return (
         <label
@@ -15,6 +15,7 @@ export default function ProductItem({ productItem, addToCart, error }) {
                 onClick={() => {
                     setSelectedProduct(productItem.name)
                     setMainProductPrice(productItem.price)
+                    setMainProductDesc(productItem.desc)
                     addToCart(productItem);
                 }}
                 className="sr-only"
@@ -27,7 +28,7 @@ export default function ProductItem({ productItem, addToCart, error }) {
                 <span className="text-gray-600 text-md">{productItem.name}</span>
             </div>
             {error.productId && <InputErrorMessage message={error.productId} />}
-            
+
         </label>
     )
 }

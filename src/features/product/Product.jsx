@@ -13,12 +13,10 @@ import { useProduct } from '../../hooks/use-product';
 import { useAuth } from '../../hooks/use-auth';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
-
-
 
 import Joi from 'joi';
 import InputErrorMessage from '../auth/RegisterErrorMessage';
+
 
 const productSchema = Joi.object({
 	selectedProduct: Joi.required().not(null),
@@ -43,6 +41,7 @@ export default function Product() {
 		mainProductPrice, setMainProductPrice,
 		monkExpense,
 		addOnProducts, setAddOnProducts,
+		mainProductDesc, setMainProductDesc,
 		createToCart
 	} = useProduct();
 
@@ -78,6 +77,8 @@ export default function Product() {
 			addToCart(defaultProduct)
 		}
 	}, []);
+
+
 
 	const fetchCartById = async (id) => {
 		const response = await axios.get(`/cart/get/${id}`)
@@ -194,7 +195,6 @@ export default function Product() {
 
 		} catch (err) {
 			console.log(err)
-			toast.error('กรุณาตรวจสอบข้อมูลอีกครั้ง');
 		}
 
 	}
@@ -203,9 +203,20 @@ export default function Product() {
 		return (mainProductPrice + (monkExpense.price * monkAmount) + (addOnPrice * monkAmount));
 	}
 
+	const RenderDescription = ( text ) => {
+		const lines = text.split(/\r\n/);
+
+		return (
+			<>
+				{lines.map((line, index) => (
+					<p key={index}>{line}</p>
+				))}
+			</>
+		)
+	}
+
 	return (
 		<>
-
 			<div className='container pt-20 pb-40 flex flex-col gap-8'>
 
 				<div>
@@ -216,6 +227,9 @@ export default function Product() {
 
 					<div>
 						<img className="object-cover w-full rounded-2xl " src="https://f.ptcdn.info/723/061/000/pkltx5avwSxPyzfJVDT-o.jpg" alt="hero-image" />
+						<div className='text-gray-500 py-4 text-sm'>
+							{RenderDescription(mainProductDesc)}
+						</div>
 					</div>
 
 					{/* ---- RIGHT SECTION ---- */}
@@ -340,7 +354,7 @@ export default function Product() {
 						{`${addOnPrice}`} <br />
 						{`date: ${eventDate}`}  <br /> */}
 
-						{calPrice()? (`total price : ${calPrice()}`):(`total price : 0`)}
+						{calPrice() ? (`total price : ${calPrice()}`) : (`total price : 0`)}
 					</p>
 
 					{/* ---- BUTTON : ADD TO CART ---- */}

@@ -4,7 +4,7 @@ export default function RegisterInput({ type = 'text', placeholder, value, onCha
         <input
             type={type}
             placeholder={placeholder}
-            className={`block w-full border rounded-md outline-none px-3 py-1.5 text-sm focus:ring 
+            className={`block w-72 border rounded-md outline-none px-4 py-3 text-sm focus:ring 
             ${hasError
                     ? 'border-red-500 focus:ring-red-300'
                     : ' focus:ring-blue-300 focus:border-blue-500 border-gray-300'

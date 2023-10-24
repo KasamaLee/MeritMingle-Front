@@ -21,7 +21,7 @@ export default function AdminPage() {
 
 	useEffect(() => {
 		fetchOrder();
-		console.log(orders)
+		// console.log(orders)
 	}, [])
 
 	const fetchOrder = async () => {

@@ -72,9 +72,9 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
 
 
     return (
-        <form onSubmit={handleRegisterForm} className="flex flex-col gap-4">
+        <form onSubmit={handleRegisterForm} className="flex flex-col gap-4 px-12">
             <p>Register</p >
-            <div className="flex gap-2">
+            <div className="flex gap-2 justify-between">
                 <div>
                     <RegisterInput
                         placeholder="Email address"
@@ -97,7 +97,7 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
                 </div>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 justify-between">
                 <div>
                     <RegisterInput
                         placeholder="first name"
@@ -118,7 +118,7 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
                 </div>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 justify-between">
                 <div>
                     <RegisterInput
                         type="password"
