@@ -66,6 +66,7 @@ export default function Map({ viewMode, location, searchLocation, setSearchLocat
                 </div>
             ) : (
                 <div>
+                    <PlacesAutoComplete handleSetSearchLocation={handleSetSearchLocation}></PlacesAutoComplete >
                     <GoogleMap
                         center={searchLocation || center}
                         mapContainerClassName='map-container'
@@ -73,7 +74,6 @@ export default function Map({ viewMode, location, searchLocation, setSearchLocat
                         // onClick={e=> console.log(e)}
                         onClick={handleClickLocation}
                     >
-                        <PlacesAutoComplete handleSetSearchLocation={handleSetSearchLocation}></PlacesAutoComplete >
 
                         {/* ถามว่า select กับ clicked มีไหม ถ้ามีตัวในตัวหนึ่ง ให้ set position MarkerF */}
                         {/* เชค clicked ก่อน ถ้า null ไปดู selected */}

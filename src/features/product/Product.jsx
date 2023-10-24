@@ -206,7 +206,7 @@ export default function Product() {
 	return (
 		<>
 
-			<div className='container pt-20 pb-60 flex flex-col gap-8'>
+			<div className='container pt-20 pb-40 flex flex-col gap-8'>
 
 				<div>
 					<h1 className='text-4xl text-center'> Products </h1>

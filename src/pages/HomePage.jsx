@@ -43,7 +43,7 @@ export default function HomePage() {
                                 setMainProductPrice(productItem.price)
                             }}>
                             <div className="bg-gray-300 flex justify-center items-center hover:shadow-xl h-64 rounded-xl overflow-hidden relative">
-                                <h4 className='absolute text-white text-3xl z-10 bottom-6'>{productItem.name}</h4>
+                                <h4 className='absolute text-white text-2xl z-10 bottom-6'>{productItem.name}</h4>
                                 <img src={productItem.productImage} className='w-full h-full object-cover' alt="" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent h-1/3 top-2/3"></div>
                             </div>
