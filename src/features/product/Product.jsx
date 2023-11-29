@@ -39,6 +39,7 @@ export default function Product() {
 		mainProducts,
 		selectedProduct, setSelectedProduct,
 		mainProductPrice, setMainProductPrice,
+		mainProductImage, setMainProductImage,
 		monkExpense,
 		addOnProducts, setAddOnProducts,
 		mainProductDesc, setMainProductDesc,
@@ -204,15 +205,15 @@ export default function Product() {
 	}
 
 	const RenderDescription = ( text ) => {
-		const lines = text.split(/\r\n/);
-
+		// console.log(text)
+		const lines = text.split('\n');
 		return (
-			<>
+			<div>
 				{lines.map((line, index) => (
-					<p key={index}>{line}</p>
+					<div key={index}>{line}</div>
 				))}
-			</>
-		)
+			</div>
+		);
 	}
 
 	return (
@@ -223,17 +224,17 @@ export default function Product() {
 					<h1 className='text-4xl text-center'> Products </h1>
 				</div>
 
-				<div className='flex gap-16 items-stretch justify-stretch'>
+				<div className='flex gap-16 w-full justify-stretch'>
 
-					<div>
-						<img className="object-cover w-full rounded-2xl " src="https://f.ptcdn.info/723/061/000/pkltx5avwSxPyzfJVDT-o.jpg" alt="hero-image" />
+					<div className='w-1/2'>
+						<img className="object-cover rounded-xl h-64 " src={mainProductImage} alt="hero-image" />
 						<div className='text-gray-500 py-4 text-sm'>
 							{RenderDescription(mainProductDesc)}
 						</div>
 					</div>
 
 					{/* ---- RIGHT SECTION ---- */}
-					<div className="flex flex-col gap-10 w-full" >
+					<div className="flex flex-col gap-10 w-1/2" >
 
 						{/* ---- SELECT PRODUCT ---- */}
 						<div className="flex flex-col gap-4 w-full">

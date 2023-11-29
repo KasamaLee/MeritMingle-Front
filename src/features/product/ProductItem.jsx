@@ -4,19 +4,20 @@ import { useEffect } from 'react';
 
 export default function ProductItem({ productItem, addToCart, error }) {
 
-    const { selectedProduct, setSelectedProduct, mainProductPrice, setMainProductPrice, mainProductDesc, setMainProductDesc } = useProduct();
+    const { selectedProduct, setSelectedProduct, mainProductPrice, setMainProductPrice, mainProductDesc, setMainProductDesc, mainProductImage, setMainProductImage } = useProduct();
 
     return (
         <label
             className={`rounded py-2 px-6 outline-none ring ring-gray-300  hover:outline-none hover:ring hover:ring-orange-300 ${selectedProduct === productItem.name ? 'outline-none ring ring-orange-300' : ''}`}
         >
             <input
-                name={productItem.name}
                 onClick={() => {
                     setSelectedProduct(productItem.name)
+                    setMainProductImage(productItem.productImage)
                     setMainProductPrice(productItem.price)
                     setMainProductDesc(productItem.desc)
                     addToCart(productItem);
+                    console.log(productItem.desc)
                 }}
                 className="sr-only"
                 type="radio"

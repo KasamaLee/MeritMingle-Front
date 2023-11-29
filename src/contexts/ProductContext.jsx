@@ -19,6 +19,7 @@ export default function ProductContextProvider({ children }) {
     const [mainProducts, setMainProducts] = useState([]);
     const [mainProductPrice, setMainProductPrice] = useState();
     const [mainProductDesc, setMainProductDesc] = useState('');
+    const [mainProductImage, setMainProductImage] = useState();
 
     // array ของ addOn
     const [addOnProducts, setAddOnProducts] = useState([]);
@@ -93,6 +94,7 @@ export default function ProductContextProvider({ children }) {
                 selectedProduct, setSelectedProduct,
                 mainProductPrice, setMainProductPrice,
                 mainProductDesc, setMainProductDesc,
+                mainProductImage, setMainProductImage,
                 addOnProducts, setAddOnProducts,
                 createToCart,
                 carts, setCarts,

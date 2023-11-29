@@ -15,6 +15,9 @@ export default {
   fontFamily: {
     "Kanit": ["Kanit", "sans-serif"],
     "Noto Sans Thai": ["Noto Sans Thai", "sans-serif"]
-  }
+  },
+  screens: {
+    mobile: "640px",
+  },
 }
 

@@ -4,7 +4,7 @@ export default function LoginInput({ type = 'text', placeholder, value, onChange
         <input
             type={type}
             placeholder={placeholder}
-            className="block w-full rounded-md px-4 py-3 outline-none border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
+            className="bg-white appearance-none border-2 border-gray-200 rounded-md w-full py-2 px-4 text-gray-700 leading-tight focus:ring-0 focus:border-orange-400"
             value={value}
             onChange={onChange}
         />

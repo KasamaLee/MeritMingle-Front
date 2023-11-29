@@ -67,13 +67,13 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
             return setError(validationError);
         }
         setError({});
-        register(input, onCloseModal )
+        register(input, onCloseModal)
     }
 
 
     return (
-        <form onSubmit={handleRegisterForm} className="flex flex-col gap-4 px-12">
-            <p>Register</p >
+        <form onSubmit={handleRegisterForm} className="flex flex-col gap-4 px-12 ">
+            <h6 className="text-lg text-gray-600">Register</h6 >
             <div className="flex gap-2 justify-between">
                 <div>
                     <RegisterInput
@@ -143,10 +143,20 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
 
             </div>
 
-            <button className="bg-green-400 text-white w-full rounded-md text-xl font-bold py-2.5">Register</button>
-            <span>already have an account?
-                <span className="text-orange-500 underline ml-2 cursor-pointer" onClick={() => setIsRegister(false)}>
-                    login
+            <button className="bg-orange-400 text-white w-full rounded-md text-lg font-bold py-2 px-4 hover:opacity-70">Register</button>
+
+            <div className="flex items-center justify-center w-full">
+                <hr className="w-64 h-px my-8 bg-gray-300 border-0" />
+                <span className="absolute px-3 text-gray-500 -translate-x-1/2 bg-white left-1/2">
+                    or
+                </span>
+            </div>
+
+            <span>Don’t have an account?
+                <span
+                    className="text-orange-500 underline ml-2 cursor-pointer"
+                    onClick={() => setIsRegister(false)}>
+                    Login
                 </span>
             </span>
 

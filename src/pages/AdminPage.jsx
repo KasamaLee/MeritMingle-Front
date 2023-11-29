@@ -188,7 +188,7 @@ export default function AdminPage() {
 					onCloseModal={() => {
 						setIsOpenModal(!isOpenModal)
 					}}>
-					<div className='flex flex-col gap-4'>
+					<div className='w-[900px]'>
 						<Map location={location} viewMode={true} />
 					</div>
 				</Modal>
