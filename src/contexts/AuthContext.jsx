@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../config/axios';
 import { useState } from 'react';
 import { createContext } from 'react'
 import { addAccessToken, getAccessToken, removeAccessToken } from '../utils/local-storage';

@@ -204,7 +204,7 @@ export default function Product() {
 		return (mainProductPrice + (monkExpense.price * monkAmount) + (addOnPrice * monkAmount));
 	}
 
-	const RenderDescription = ( text ) => {
+	const RenderDescription = (text) => {
 		// console.log(text)
 		const lines = text.split('\n');
 		return (
@@ -227,7 +227,11 @@ export default function Product() {
 				<div className='flex gap-16 w-full justify-stretch'>
 
 					<div className='w-1/2'>
-						<img className="object-cover rounded-xl h-64 " src={mainProductImage} alt="hero-image" />
+						{mainProductImage ? (
+							<img className="object-cover rounded-xl h-64 w-full" src={mainProductImage} alt="hero-image" />
+						) : (
+							<div className="rounded-xl h-64 w-full bg-gray-300"/>
+						)}
 						<div className='text-gray-500 py-4 text-sm'>
 							{RenderDescription(mainProductDesc)}
 						</div>

@@ -34,18 +34,19 @@ export default function Navigation() {
                         <li>
                             <Link to='/contact'>Contact</Link>
                         </li>
-                        <li className='relative'>
-                            <Link to='/cart'>
+                        <Link to='/cart'>
+                            <li className='relative'>
                                 <FontAwesomeIcon icon={faShoppingBag} size='xl' />
-                            </Link>
-                            {carts.length > 0 && <div className='absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-orange-500 text-white text-sm flex justify-center items-center'>
-                                {carts.length}
-                            </div>}
-                        </li>
+                                {carts.length > 0 && <div className='absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-orange-500 text-white text-sm flex justify-center items-center'>
+                                    {carts.length}
+                                </div>}
+                            </li>
+                        </Link>
 
                     </ul>
-                </nav>
-            )}
+                </nav >
+            )
+            }
         </>
 
     )

@@ -72,10 +72,10 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
 
 
     return (
-        <form onSubmit={handleRegisterForm} className="flex flex-col gap-4 px-12 ">
+        <form onSubmit={handleRegisterForm} className="flex flex-col gap-4 w-[500px]">
             <h6 className="text-lg text-gray-600">Register</h6 >
             <div className="flex gap-2 justify-between">
-                <div>
+                <div className='w-full'>
                     <RegisterInput
                         placeholder="Email address"
                         value={input.email}
@@ -85,7 +85,7 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
                     {error.email && <InputErrorMessage message={error.email} />}
                 </div>
 
-                <div>
+                <div className='w-full'>
                     <RegisterInput
                         placeholder="Mobile"
                         value={input.mobile}
@@ -98,7 +98,7 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
             </div>
 
             <div className="flex gap-2 justify-between">
-                <div>
+                <div className='w-full'>
                     <RegisterInput
                         placeholder="first name"
                         value={input.firstName}
@@ -107,7 +107,7 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
                     />
                     {error.firstName && <InputErrorMessage message={error.firstName} />}
                 </div>
-                <div>
+                <div className='w-full'>
                     <RegisterInput
                         placeholder="last name"
                         value={input.lastName}
@@ -119,7 +119,7 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
             </div>
 
             <div className="flex gap-2 justify-between">
-                <div>
+                <div className='w-full'>
                     <RegisterInput
                         type="password"
                         placeholder="password"
@@ -130,7 +130,7 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
                     {error.password && <InputErrorMessage message={error.password} />}
                 </div>
 
-                <div>
+                <div className='w-full'>
                     <RegisterInput
                         type="confirmPassword"
                         placeholder="confirm password"
@@ -152,13 +152,15 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
                 </span>
             </div>
 
-            <span>Don’t have an account?
+            <div className="text-center">
+                <span className="text-gray-500">Already have an account?</span>
                 <span
-                    className="text-orange-500 underline ml-2 cursor-pointer"
-                    onClick={() => setIsRegister(false)}>
+                    className="cursor-pointer underline text-orange-500 ml-2"
+                    onClick={() => setIsRegister(false)}
+                >
                     Login
                 </span>
-            </span>
+            </div>
 
         </form >
 

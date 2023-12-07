@@ -27,7 +27,7 @@ export default function LoginForm({ setIsRegister, onCloseModal }) {
 
     return (
         <>
-            <form onSubmit={handleLoginForm} className="flex flex-col gap-4 m-auto w-[600px] min-w-[240px]">
+            <form onSubmit={handleLoginForm} className="flex flex-col gap-4 m-auto w-[500px] min-w-[240px]">
                 <h6 className="text-lg text-gray-600">Welcome back!</h6 >
                 <LoginInput
                     type="email"
@@ -52,7 +52,7 @@ export default function LoginForm({ setIsRegister, onCloseModal }) {
                 </span>
             </div>
             
-            <div className="text-center mt-4 ">
+            <div className="text-center">
                 <span className="text-gray-500">Don’t have an account?</span>
                 <span
                     className="cursor-pointer underline text-orange-500 ml-2"

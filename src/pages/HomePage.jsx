@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from "../hooks/use-auth"
 import { useProduct } from "../hooks/use-product";
-import heroImage from "../assets/images/heroImage.webp"
+import heroImage from "../assets/images/heroImage.jpeg"
+import Lottie from 'react-lottie';
+import animationRobot from '../assets/robot.json';
 
 
 export default function HomePage() {
@@ -10,12 +12,20 @@ export default function HomePage() {
 
     console.log(mainProducts)
 
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationRobot,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
 
     return (
         <>
             {/* ---- HERO SECTION ---- */}
             <div className=" bg-gray-100 ">
-                <div className="container flex justify-between py-12">
+                <div className="container flex justify-between pt-24 pb-12">
 
                     <div className="flex flex-col items-start justify-center max-w-md gap-6">
                         <div className="flex flex-col gap-3">
@@ -27,7 +37,12 @@ export default function HomePage() {
                             <button className="cta-button shadow-md hover:opacity-60 cursor-pointer">นิมนต์ now</button>
                         </Link>
                     </div>
-                    <img className="object-cover w-2/5 h-64 rounded-2xl " src={heroImage} alt="hero-image" />
+                    <div className='w-1/2 relative'>
+                        <img className="object-cover h-64 w-full rounded-2xl " src={heroImage} alt="hero-image" />
+                        <div className='absolute -bottom-14 right-[20%]'>
+                            <Lottie options={defaultOptions} width={280} />
+                        </div>
+                    </div>
                 </div>
             </div>
 

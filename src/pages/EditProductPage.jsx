@@ -141,93 +141,97 @@ export default function EditProductPage() {
 	}
 
 	return (
-		<div className='container py-20'>
-			<div className='container py-10'>
-				<h4>ค่าบริการนิมนต์</h4>
-				<div className='relative flex gap-4 w-fit'>
-					<input
-						className='rounded py-2 px-6 w-80 outline-none ring ring-gray-300 focus:ring focus:ring-orange-300 hover:ring hover:ring-orange-300'
-						maxLength="10"
-						type="number"
-						onChange={(e) => setMonkPrice(e.target.value)}
-						value={monkPrice}
-					/>
-					<button
-						className="absolute right-2 top-1 bg-orange-400 text-white rounded-3xl px-4 py-1"
-						onClick={() => handleUpdateMonkExpense(monkExpense.id)}
+		<>
+			<div className='container flex flex-col items-center py-20'>
+				<div className='py-10 w-2/3'>
+					<h4>ค่าบริการนิมนต์</h4>
+					<div className='relative flex gap-4 w-80'>
+						<input
+							className='rounded py-2 px-6 w-full outline-none border-none ring ring-gray-300 focus:ring focus:ring-orange-400 hover:ring hover:ring-orange-400'
+							maxLength="10"
+							type="number"
+							onChange={(e) => setMonkPrice(e.target.value)}
+							value={monkPrice}
+						/>
+						<button
+							className="absolute right-2 top-1 bg-orange-400 text-white rounded-3xl px-4 py-1"
+							onClick={() => handleUpdateMonkExpense(monkExpense.id)}
+						>
+							ยืนยันการแก้ไข
+						</button>
+					</div>
+				</div>
+
+				<div className='py-10 w-2/3'>
+					<h4>ค่าสังฆทาน</h4>
+					<div className='relative flex gap-4 w-80'>
+						<input
+							className='rounded py-2 px-6 w-full outline-none border-none ring ring-gray-300 focus:ring focus:ring-orange-400 hover:ring hover:ring-orange-400'
+							maxLength="10"
+							type="number"
+							onChange={(e) => setAddOnPrice(e.target.value)}
+							value={addOnPrice}
+						/>
+						<button
+							className="absolute right-2 top-1 bg-orange-400 text-white rounded-3xl px-4 py-1"
+							onClick={() => handleUpdateAddOnPrice(addOnProducts[0].id)}
+						>
+							ยืนยันการแก้ไข
+						</button>
+					</div>
+				</div>
+
+				<div className='container py-10 w-2/3'>
+					<h4>เพิ่มสินค้าใหม่</h4>
+
+					<div
+						className='flex justify-center bg-orange-400 text-white rounded-xl p-4 cursor-pointer relative'
+						onClick={() => {
+							setIsOpenModal(true)
+							setIsUpdating(false)
+						}}
 					>
-						ยืนยันการแก้ไข
-					</button>
-				</div>
-			</div>
+						<FontAwesomeIcon icon={faCircleXmark} size='2x' style={{ transform: 'rotate(45deg)' }} />
+					</div>
 
-			<div className='container py-10'>
-				<h4>ค่าสังฆทาน</h4>
-				<div className='relative flex gap-4 w-fit'>
-					<input
-						className='rounded py-2 px-6 w-80 outline-none ring ring-gray-300 focus:ring focus:ring-orange-300 hover:ring hover:ring-orange-300'
-						maxLength="10"
-						type="number"
-						onChange={(e) => setAddOnPrice(e.target.value)}
-						value={addOnPrice}
-					/>
-					<button
-						className="absolute right-2 top-1 bg-orange-400 text-white rounded-3xl px-4 py-1"
-						onClick={() => handleUpdateAddOnPrice(addOnProducts[0].id)}
-					>
-						ยืนยันการแก้ไข
-					</button>
-				</div>
-			</div>
 
-			<div className='container py-10'>
-				<h4>เพิ่มสินค้าใหม่</h4>
-
-				<div
-					className='flex justify-center bg-orange-400 text-white rounded-xl p-4 cursor-pointer relative'
-					onClick={() => {
-						setIsOpenModal(true)
-						setIsUpdating(false)
-					}}
-				>
-					<FontAwesomeIcon icon={faCircleXmark} size='2x' style={{ transform: 'rotate(45deg)' }} />
 				</div>
 
+				<div className='py-10 flex flex-col gap-4 w-2/3'>
+					<h4>สินค้าปัจจุบัน</h4>
+					{mainProducts.map((product, index) => {
+						return (
+							<div key={index} className="p-6 flex justify-between items-end gap-4 border-2 border-orange-400 rounded-xl">
+								<div className=''>
+									<p>{product.name}</p>
+									<p>{product.price}</p>
+								</div>
+								<div>
+									<button
+										className="bg-gray-400 text-white rounded-3xl py-1 px-4 mr-2"
+										onClick={() => handleDeleteProduct(product.id)}
+									>
+										ลบ
+									</button>
 
-			</div>
+									{/* UPDATE BUTTON */}
+									<button
+										className="bg-gray-400 text-white rounded-3xl py-1 px-4 mr-2"
+										onClick={() => {
+											setIsOpenModal(true)
+											defaultProductData(product)
+											setIsUpdating(true)
+										}}
+									>
+										แก้ไข
+									</button>
 
-			<div className='container py-10 flex flex-col gap-4'>
-				<h4>สินค้าปัจจุบัน</h4>
-				{mainProducts.map((product, index) => {
-					return (
-						<div key={index} className="p-6 flex justify-between items-end gap-4 border-2 border-orange-400 rounded-xl w-2/3">
-							<p>{product.name}</p>
-							<p>{product.price}</p>
-							<div>
-								<button
-									className="bg-gray-400 text-white rounded-3xl py-1 px-4 mr-2"
-									onClick={() => handleDeleteProduct(product.id)}
-								>
-									ลบ
-								</button>
-
-								{/* UPDATE BUTTON */}
-								<button
-									className="bg-gray-400 text-white rounded-3xl py-1 px-4 mr-2"
-									onClick={() => {
-										setIsOpenModal(true)
-										defaultProductData(product)
-										setIsUpdating(true)
-									}}
-								>
-									แก้ไข
-								</button>
-
+								</div>
 							</div>
-						</div>
-					)
-				})}
-			</div>
+						)
+					})}
+				</div>
+			</div >
 
 			<Modal open={isOpenModal} onCloseModal={() => {
 				setIsOpenModal(!isOpenModal)
@@ -315,6 +319,6 @@ export default function EditProductPage() {
 
 
 
-		</div >
+		</>
 	)
 }

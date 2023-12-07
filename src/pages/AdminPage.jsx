@@ -101,7 +101,7 @@ export default function AdminPage() {
 
 
 	return (
-		<div className='container flex flex-col gap-4 py-20'>
+		<div className='flex flex-col gap-4 py-20'>
 			<h1 className="text-4xl text-center">Order</h1>
 
 			<div className='overflow-x-auto'>

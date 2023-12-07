@@ -11,7 +11,7 @@ export default function AdminHeader() {
     const navigate = useNavigate();
 
     return (
-        <div className='shadow-md py-3'>
+        <div className='shadow-md py-3 fixed w-full bg-white z-50'>
             <div className="container flex justify-between items-center m-auto">
                 <Link to='/'>
                     <h4 className='logo'>MeritMingle</h4>
