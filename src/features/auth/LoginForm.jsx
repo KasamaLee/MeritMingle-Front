@@ -42,9 +42,10 @@ export default function LoginForm({ setIsRegister, onCloseModal }) {
                     value={input.password}
                     onChange={e => setInput({ ...input, password: e.target.value })}
                 />
-                <button className="bg-orange-400 text-white w-full rounded-md text-lg font-bold py-2 px-4 hover:opacity-70">Login</button>
 
+                <button className="bg-orange-400 text-white w-full rounded-md text-lg font-bold py-2 px-4 hover:opacity-70">Login</button>
             </form >
+
             <div className="flex items-center justify-center w-full">
                 <hr className="w-64 h-px my-8 bg-gray-300 border-0" />
                 <span className="absolute px-3 text-gray-500 -translate-x-1/2 bg-white left-1/2">
