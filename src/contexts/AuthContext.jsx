@@ -66,7 +66,7 @@ export default function AuthContextProvider({ children }) {
     }
 
     const register = async (input, onCloseModal) => {
-        const response = await axios.post('http://localhost:8888/auth/register', input);
+        const response = await axios.post('/auth/register', input);
 
         const token = response.data.accessToken;
         addAccessToken(token);

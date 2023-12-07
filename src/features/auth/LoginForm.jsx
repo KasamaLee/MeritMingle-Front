@@ -28,7 +28,9 @@ export default function LoginForm({ setIsRegister, onCloseModal }) {
     return (
         <>
             <form onSubmit={handleLoginForm} className="flex flex-col gap-4 m-auto w-[500px] min-w-[240px]">
+                
                 <h6 className="text-lg text-gray-600">Welcome back!</h6 >
+
                 <LoginInput
                     type="email"
                     placeholder="Email address"
