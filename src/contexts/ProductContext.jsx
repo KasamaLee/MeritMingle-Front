@@ -12,6 +12,7 @@ export default function ProductContextProvider({ children }) {
 
     useEffect(() => {
         fetchProduct();
+        fetchCart();
     }, [])
 
     // Main Product ต้อง set name และ price มาตั้งแต่ตอนเลือก card หน้า home
@@ -31,6 +32,22 @@ export default function ProductContextProvider({ children }) {
     const [carts, setCarts] = useState([])
 
 
+    const fetchCart = async () => {
+        const response = await axios.get('/cart/get')
+        const data = response.data.carts
+        setCarts(data)
+    }
+
+    const deleteCart = async (cartId) => {
+        try {
+            const response = await axios.delete(`/cart/delete/${cartId}`);
+            if (response.status === 200) {
+                fetchCart(); // Refresh the cart list after deletion.
+            }
+        } catch (error) {
+            console.error("Error deleting cart:", error);
+        }
+    };
 
 
     const createToCart = async (input) => {
@@ -98,7 +115,7 @@ export default function ProductContextProvider({ children }) {
                 addOnProducts, setAddOnProducts,
                 createToCart,
                 carts, setCarts,
-                fetchProduct,
+                fetchProduct, fetchCart, deleteCart
             }}
         >
             {children}

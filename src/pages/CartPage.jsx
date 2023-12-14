@@ -8,33 +8,11 @@ import { useProduct } from "../hooks/use-product";
 
 export default function CartPage() {
 
-	const { carts, setCarts } = useProduct();
-	
-	useEffect(() => {
-		fetchCart();
-		// console.log(carts)
-	}, [])
+	const { carts, setCarts, deleteCart } = useProduct();
 
 
 	// Navigate
 	const navigate = useNavigate();
-
-	const fetchCart = async () => {
-		const response = await axios.get('/cart/get')
-		const data = response.data.carts
-		setCarts(data)
-	}
-
-	const deleteCart = async (cartId) => {
-		try {
-			const response = await axios.delete(`/cart/delete/${cartId}`);
-			if (response.status === 200) {
-				fetchCart(); // Refresh the cart list after deletion.
-			}
-		} catch (error) {
-			console.error("Error deleting cart:", error);
-		}
-	};
 
 
 	let sum = 0;
