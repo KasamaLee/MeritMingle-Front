@@ -15,11 +15,11 @@ export default function Navigation() {
         <>
             {!authUser ? (
                 <nav>
-                    <ul className='flex justify-center gap-4 hover items-baseline '>
-                        <li>
+                    <ul className='flex justify-center gap-4 items-baseline '>
+                        <li className='hover:text-orange-400'>
                             <Link to='/'>Home</Link>
                         </li>
-                        <li>
+                        <li className='hover:text-orange-400'>
                             <Link to='/contact'>Contact</Link>
                         </li>
 
@@ -27,15 +27,15 @@ export default function Navigation() {
                 </nav>
             ) : (
                 <nav>
-                    <ul className='flex justify-center gap-4 hover items-baseline '>
-                        <li>
+                    <ul className='flex justify-center gap-4 items-baseline '>
+                        <li className='hover:text-orange-400'>
                             <Link to='/'>Home</Link>
                         </li>
-                        <li>
+                        <li className='hover:text-orange-400'>
                             <Link to='/contact'>Contact</Link>
                         </li>
                         <Link to='/cart'>
-                            <li className='relative'>
+                            <li className='relative hover:text-orange-400'>
                                 <FontAwesomeIcon icon={faShoppingBag} size='xl' />
                                 {carts.length > 0 && <div className='absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-orange-500 text-white text-sm flex justify-center items-center'>
                                     {carts.length}

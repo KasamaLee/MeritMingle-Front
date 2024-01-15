@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useAuth } from "../../hooks/use-auth"
 import LoginInput from "./LoginInput";
-
+import { GoogleLogin } from "react-google-login";
+import googleLogo from '../../assets/images/google.png'
 
 
 export default function LoginForm({ setIsRegister, onCloseModal }) {
 
     // const {login} = useContext(AuthContext)
-    const { login } = useAuth();
+    const { login, onGoogleSuccess, onGoogleFailure, clientId } = useAuth();
 
     const [input, setInput] = useState({
         email: '',
@@ -28,7 +29,7 @@ export default function LoginForm({ setIsRegister, onCloseModal }) {
     return (
         <>
             <form onSubmit={handleLoginForm} className="flex flex-col gap-4 m-auto w-[500px] min-w-[240px]">
-                
+
                 <h6 className="text-lg text-gray-600">Welcome back!</h6 >
 
                 <LoginInput
@@ -54,7 +55,25 @@ export default function LoginForm({ setIsRegister, onCloseModal }) {
                     or
                 </span>
             </div>
-            
+
+            <GoogleLogin
+                clientId={clientId}
+                buttonText='Continue with Google'
+                onSuccess={(res) => onGoogleSuccess(res, onCloseModal)}
+                onFailure={onGoogleFailure}
+                cookiePolicy="single_host_origin"
+                isSignedIn={false}
+                render={renderProps => (
+                    <button
+                        onClick={renderProps.onClick}
+                        disabled={renderProps.disabled}
+                        className="mx-auto mb-6 text-sm ring-2 ring-gray-500 hover:bg-orange-200 text-black font-bold py-3 px-6 rounded flex justify-center items-center gap-3">
+                        <img className='w-6 h-6' src={googleLogo} alt='google-logo' />
+                        Continue with Google
+                    </button>
+                )}
+            />
+
             <div className="text-center">
                 <span className="text-gray-500">Don’t have an account?</span>
                 <span

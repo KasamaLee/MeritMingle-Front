@@ -12,7 +12,7 @@ export default function ProductContextProvider({ children }) {
 
     useEffect(() => {
         fetchProduct();
-        fetchCart();
+        // fetchCart();
     }, [])
 
     // Main Product ต้อง set name และ price มาตั้งแต่ตอนเลือก card หน้า home

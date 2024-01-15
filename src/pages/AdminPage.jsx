@@ -101,45 +101,44 @@ export default function AdminPage() {
 
 
 	return (
-		<div className='flex flex-col gap-4 py-20'>
+		<div className='flex flex-col items-center gap-4 py-20'>
 			<h1 className="text-4xl text-center">Order</h1>
 
 			<div className='overflow-x-auto'>
-				<table className="w-[100vw]">
+				<table className="min-w-[1400px]">
 					<thead>
 						<tr >
-							<th className='bg-orange-200  border-2 border-gray-400'>payment id</th>
-							<th className='bg-orange-200  border-2 border-gray-400'>รายการ</th>
-							<th className='bg-orange-200  border-2 border-gray-400'>ชื่อ</th>
-							<th className='bg-orange-200  border-2 border-gray-400'>นามสกุล</th>
-							<th className='bg-orange-200  border-2 border-gray-400'>อีเมลล์</th>
-							<th className='bg-orange-200  border-2 border-gray-400'>โทรศัพท์</th>
-							<th className='bg-orange-200  border-2 border-gray-400'>สังฆทาน</th>
-							<th className='bg-orange-200  border-2 border-gray-400'>จำนวนนินมต์</th>
-							<th className='bg-orange-200  border-2 border-gray-400'>สถานที่จัดงาน</th>
-							<th className='bg-orange-200  border-2 border-gray-400'>วันจัดงาน</th>
-
-							<th className='bg-orange-200  border-2 border-gray-400'>ราคา</th>
-							<th className='bg-orange-200  border-2 border-gray-400'>สลิป</th>
-							<th className='bg-orange-200  border-2 border-gray-400'>สถานะการชำระเงิน</th>
+							<th className='bg-orange-200 py-6 text-orange-800'>payment id</th>
+							<th className='bg-orange-200 py-6 text-orange-800'>รายการ</th>
+							<th className='bg-orange-200 py-6 text-orange-800'>ชื่อ</th>
+							<th className='bg-orange-200 py-6 text-orange-800'>นามสกุล</th>
+							<th className='bg-orange-200 py-6 text-orange-800'>e-mail</th>
+							<th className='bg-orange-200 py-6 text-orange-800'>โทรศัพท์</th>
+							<th className='bg-orange-200 py-6 text-orange-800'>สังฆทาน</th>
+							<th className='bg-orange-200 py-6 text-orange-800'>นินมต์ (รูป)</th>
+							<th className='bg-orange-200 py-6 text-orange-800'>สถานที่</th>
+							<th className='bg-orange-200 py-6 text-orange-800'>กำหนดการ</th>
+							<th className='bg-orange-200 py-6 text-orange-800'>ราคา</th>
+							<th className='bg-orange-200 py-6 text-orange-800'>slip</th>
+							<th className='bg-orange-200 py-6 text-orange-800'>status</th>
 						</tr>
 					</thead>
 					<tbody>
 						{tableData.map((eachColumn, index) => {
 							return (
-								<tr key={index}>
-									<td className="border-2 border-gray-400">{eachColumn.paymentId}</td>
-									<td className="border-2 border-gray-400">{eachColumn.main}</td>
-									<td className="border-2 border-gray-400">{eachColumn.firstName}</td>
-									<td className="border-2 border-gray-400">{eachColumn.lastName}</td>
-									<td className="border-2 border-gray-400">{eachColumn.email}</td>
-									<td className="border-2 border-gray-400">{eachColumn.mobile}</td>
-									<td className="border-2 border-gray-400">{eachColumn.addOn}</td>
-									<td className="border-2 border-gray-400">{eachColumn.monkAmount}</td>
+								<tr key={index} className='text-center text-gray-600'>
+									<td className="border-b border-gray-300">{eachColumn.paymentId}</td>
+									<td className="border-b border-gray-300">{eachColumn.main}</td>
+									<td className="border-b border-gray-300">{eachColumn.firstName}</td>
+									<td className="border-b border-gray-300">{eachColumn.lastName}</td>
+									<td className="border-b border-gray-300">{eachColumn.email}</td>
+									<td className="border-b border-gray-300">{eachColumn.mobile}</td>
+									<td className="border-b border-gray-300">{eachColumn.addOn}</td>
+									<td className="border-b border-gray-300">{eachColumn.monkAmount}</td>
 									{/* <td className="border-2 border-gray-400">{eachColumn.location}</td> */}
-									<td className="border-2 border-gray-400">
+									<td className="border-b border-gray-300">
 										<button
-											className="bg-orange-400 text-white text-sm rounded-3xl px-2 py-1"
+											className="bg-orange-400 text-white text-sm rounded-full px-3 py-2"
 											onClick={() => {
 												setIsOpenModal(true)
 												setLocation(eachColumn.location)
@@ -148,20 +147,24 @@ export default function AdminPage() {
 											ดูแผนที่
 										</button>
 									</td>
-									
 
-									<td className="border-2 border-gray-400">{eachColumn.eventDate}</td>
-									<td className="border-2 border-gray-400">{eachColumn.totalPrice}</td>
-									<td className="border-2 border-gray-400 image-container">
+
+									<td className="border-b border-gray-300">{eachColumn.eventDate}</td>
+									<td className="border-b border-gray-300">{eachColumn.totalPrice}</td>
+									<td className="border-b border-gray-300 py-4">
 										<a href={eachColumn.slipURL} target='_blank' className='relative'>
-											<FontAwesomeIcon icon={faMagnifyingGlassPlus} color='#FDBA74' size='xl' className='absolute top-1/3 left-1/3' />
-											<img src={eachColumn.slipURL} className='w-24' />
+											<FontAwesomeIcon icon={faMagnifyingGlassPlus} color='#FDBA74' size='xl' className='absolute top-1/3 -left-2' />
+											<img src={eachColumn.slipURL} className='mx-auto border w-24 h-24 object-cover' />
 										</a>
 									</td>
 
-									<td className="border-2 border-gray-400 ">
+									<td className="border-b border-gray-300 ">
 										<div className='flex flex-col items-center gap-1'>
-											{eachColumn.status ? 'จ่ายเงินแล้ว' : 'รอการตรวจสอบ'}
+											{eachColumn.status ? (
+												<div className='bg-green-200 rounded-md px-2 text-green-800'>จ่ายเงินแล้ว</div>
+											) : (
+												<div className='bg-red-200 rounded-md px-2 text-red-800'>รอการตรวจสอบ</div>
+											)}
 
 											<div className="flex max-w-md flex-col gap-4" id="toggle">
 												<ToggleSwitch checked={eachColumn.status} onChange={() => {

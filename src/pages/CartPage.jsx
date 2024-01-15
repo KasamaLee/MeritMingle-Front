@@ -10,6 +10,10 @@ export default function CartPage() {
 
 	const { carts, setCarts, deleteCart } = useProduct();
 
+	useEffect(() => {
+        fetchCart();
+    }, [])
+
 
 	// Navigate
 	const navigate = useNavigate();

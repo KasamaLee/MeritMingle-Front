@@ -4,6 +4,8 @@ import { createContext } from 'react'
 import { addAccessToken, getAccessToken, removeAccessToken } from '../utils/local-storage';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
+import { gapi } from "gapi-script";
+
 
 export const AuthContext = createContext()
 
@@ -15,6 +17,8 @@ export default function AuthContextProvider({ children }) {
     const [initialLoading, setInitialLoading] = useState(true);
     const [isOpen, setIsOpen] = useState(false)
 
+    const clientId = "213199379663-dd1gl68k2j606ss5vrpgia0m6pu41q7r.apps.googleusercontent.com"
+
 
     useEffect(() => {
         if (getAccessToken()) {
@@ -22,9 +26,17 @@ export default function AuthContextProvider({ children }) {
         } else {
             setInitialLoading(false);
         }
-    }, []);
 
-    
+        // initialize Google API client
+        const initClient = () => {
+            gapi.client.init({
+                clientId: clientId,
+                scope: ''
+            })
+        }
+        // load Google API client for auth service
+        gapi.load("client:auth2", initClient)
+    }, []);
 
 
     const getMe = async () => {
@@ -37,6 +49,34 @@ export default function AuthContextProvider({ children }) {
         } finally {
             setInitialLoading(false);
         }
+    }
+
+    const onGoogleSuccess = async (res, onCloseModal) => {
+        // console.log(res.profileObj)
+        const data = {
+            userName: res.profileObj.givenName,
+            email: res.profileObj.email,
+            googleId: res.profileObj.googleId,
+        }
+        try {
+            const response = await axios.post('/auth/googleLogin', data)
+            // console.log(response)
+
+            const token = response.data.accessToken;
+
+            // เอา token ไปแปะใส่ localStorage
+            addAccessToken(token);
+            setAuthUser(response.data.user)
+            onCloseModal();
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const onGoogleFailure = (res) => {
+        alert('Log in with Google Failed')
+        console.log('failed', res)
     }
 
 
@@ -75,7 +115,17 @@ export default function AuthContextProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ authUser, setAuthUser, login, register, logout, isOpen, setIsOpen, initialLoading, setInitialLoading }}> {children}</AuthContext.Provider>
+        <AuthContext.Provider value={{
+            authUser, setAuthUser,
+            onGoogleSuccess, onGoogleFailure, clientId,
+            login,
+            register,
+            logout,
+            isOpen, setIsOpen,
+            initialLoading, setInitialLoading
+        }}>
+            {children}
+        </AuthContext.Provider>
     )
 }
 

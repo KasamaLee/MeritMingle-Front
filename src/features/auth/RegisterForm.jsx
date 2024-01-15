@@ -3,6 +3,8 @@ import { useAuth } from '../../hooks/use-auth';
 import { useState } from 'react';
 import RegisterInput from './RegisterInput';
 import InputErrorMessage from './RegisterErrorMessage';
+import { GoogleLogin } from "react-google-login";
+import googleLogo from '../../assets/images/google.png'
 
 
 const registerSchema = Joi.object(
@@ -44,7 +46,7 @@ const validateRegister = (input) => {
 export default function RegisterForm({ setIsRegister, onCloseModal }) {
 
 
-    const { register } = useAuth();
+    const { register, onGoogleSuccess, onGoogleFailure, clientId } = useAuth();
 
     const [input, setInput] = useState({
         email: '',
@@ -153,6 +155,24 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
                     or
                 </span>
             </div>
+
+            <GoogleLogin
+                clientId={clientId}
+                buttonText='Continue with Google'
+                onSuccess={(res) => onGoogleSuccess(res, onCloseModal)}
+                onFailure={onGoogleFailure}
+                cookiePolicy="single_host_origin"
+                isSignedIn={false}
+                render={renderProps => (
+                    <button
+                        onClick={renderProps.onClick}
+                        disabled={renderProps.disabled}
+                        className="mx-auto mb-6 text-sm ring-2 ring-gray-500 hover:bg-orange-200 text-black font-bold py-3 px-6 rounded flex justify-center items-center gap-3">
+                        <img className='w-6 h-6' src={googleLogo} alt='google-logo' />
+                        Continue with Google
+                    </button>
+                )}
+            />
 
             <div className="text-center">
                 <span className="text-gray-500">Already have an account?</span>
