@@ -5,13 +5,14 @@ import { validatePassword } from './auth-validator'
 import RegisterInput from './RegisterInput'
 import InputErrorMessage from './RegisterErrorMessage'
 
-export default function PasswordForm() {
+export default function PasswordForm({setIsOpenPasswordModal}) {
 
     const { authUser, updatePassword } = useAuth()
     const [error, setError] = useState({})
 
     const [input, setInput] = useState({
-        password: '',
+        oldPassword: '',
+        newPassword: '',
         confirmPassword: '',
     })
 
@@ -24,7 +25,7 @@ export default function PasswordForm() {
         }
         setError({});
         updatePassword(input)
-        setIsOpenEditModal(false)
+        setIsOpenPasswordModal(false)
     }
 
     return (
@@ -35,16 +36,29 @@ export default function PasswordForm() {
                         type="text"
                         placeholder="old password"
                         value={input.password}
-                        onChange={e => setInput({ ...input, password: e.target.value })}
+                        onChange={e => setInput({ ...input, oldPassword: e.target.value })}
                         hasError={error.password}
                     />
-                    {error.password && <InputErrorMessage message={error.password} />}
+                    {error.password && <InputErrorMessage message={error.oldPassword} />}
+                </div>
+            </div>
+
+            <div className="flex gap-2 justify-between">
+                <div className='w-full'>
+                    <RegisterInput
+                        type="text"
+                        placeholder="new password"
+                        value={input.password}
+                        onChange={e => setInput({ ...input, newPassword: e.target.value })}
+                        hasError={error.password}
+                    />
+                    {error.password && <InputErrorMessage message={error.newPassword} />}
                 </div>
 
                 <div className='w-full'>
                     <RegisterInput
                         type="text"
-                        placeholder="new password"
+                        placeholder="confirm new password"
                         value={input.confirmPassword}
                         onChange={e => setInput({ ...input, confirmPassword: e.target.value })}
                         hasError={error.confirmPassword}

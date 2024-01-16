@@ -11,6 +11,7 @@ import PasswordForm from '../features/auth/PasswordForm';
 export default function Profile() {
 
   const { authUser, updateProfileInfo } = useAuth()
+  console.log(authUser)
   const [isOpenEditModal, setIsOpenEditModal] = useState(false)
   const [isOpenPasswordModal, setIsOpenPasswordModal] = useState(false)
 
@@ -39,26 +40,28 @@ export default function Profile() {
 
           <div
             className='cursor-pointer text-gray-500 hover:text-blue-500 active:text-blue-500 flex gap-2'
-            onClick={() =>{ setIsOpenEditModal(true)}}
+            onClick={() => { setIsOpenEditModal(true) }}
           >
             <span>แก้ไข</span>
             <FontAwesomeIcon icon={faEdit} size='xl' />
           </div>
         </div>
 
-        <div
-          className='grow flex flex-col gap-1'
-          onClick={() => setIsOpenPasswordModal(true)}
-        >
-          <span className='text-gray-400'>password</span>
-          <div className='flex gap-2 justify-between'>
-            <FontAwesomeIcon icon={faEyeSlash} size='lg' />
-            <div className='cursor-pointer text-gray-500 hover:text-blue-500 active:text-blue-500 flex gap-2'>
-              <span>แก้ไข</span>
-              <FontAwesomeIcon icon={faEdit} size='xl' />
+        {!authUser?.googleId &&
+          <div
+            className='grow flex flex-col gap-1'
+            onClick={() => setIsOpenPasswordModal(true)}
+          >
+            <span className='text-gray-400'>password</span>
+            <div className='flex gap-2 justify-between'>
+              <FontAwesomeIcon icon={faEyeSlash} size='lg' />
+              <div className='cursor-pointer text-gray-500 hover:text-blue-500 active:text-blue-500 flex gap-2'>
+                <span>แก้ไข</span>
+                <FontAwesomeIcon icon={faEdit} size='xl' />
+              </div>
             </div>
           </div>
-        </div>
+        }
       </div>
 
       <Modal open={isOpenEditModal} onCloseModal={() => setIsOpenEditModal(false)}>
@@ -66,7 +69,7 @@ export default function Profile() {
       </Modal>
 
       <Modal open={isOpenPasswordModal} onCloseModal={() => setIsOpenPasswordModal(false)}>
-        <PasswordForm></PasswordForm>
+        <PasswordForm setIsOpenPasswordModal={setIsOpenPasswordModal}></PasswordForm>
       </Modal>
 
     </div>

@@ -1,14 +1,18 @@
-
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/use-auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import { useProduct } from '../hooks/use-product';
+import { useEffect } from 'react';
 
 export default function Navigation() {
 
     const { authUser } = useAuth();
-    const { carts } = useProduct();
+    const { carts, fetchCart } = useProduct();
+
+    useEffect(() => {
+        if (authUser) fetchCart();
+    }, [authUser])
 
     return (
 

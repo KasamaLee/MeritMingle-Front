@@ -126,7 +126,13 @@ export default function AuthContextProvider({ children }) {
     }
 
     const updatePassword = async (input) => {
-
+        try {
+            const response = await axios.patch('/auth/update-password', input)
+            console.log(response)
+            getMe();
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     return (

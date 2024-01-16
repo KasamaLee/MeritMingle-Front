@@ -64,10 +64,13 @@ export const validateProfile = (input) => {
 
 export const PasswordSchema = Joi.object(
     {
-        password: Joi.string().pattern(/^[a-zA-Z0-9]{6,30}$/)
+        oldPassword: Joi.string().pattern(/^[a-zA-Z0-9]{6,30}$/)
             .trim()
             .required(),
-        confirmPassword: Joi.string().valid(Joi.ref('password'))
+        newPassword: Joi.string().pattern(/^[a-zA-Z0-9]{6,30}$/)
+            .trim()
+            .required(),
+        confirmPassword: Joi.string().valid(Joi.ref('newPassword'))
             .trim()
             .required()
             .strip()
