@@ -129,9 +129,12 @@ export default function AuthContextProvider({ children }) {
         try {
             const response = await axios.patch('/auth/update-password', input)
             console.log(response)
-            getMe();
+            if (response.status === 200) {
+                toast.success('password changed!')
+                getMe();
+            }
         } catch (err) {
-            console.log(err)
+            toast.error('old password incorrect!')
         }
     }
 
