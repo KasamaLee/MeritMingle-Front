@@ -5,7 +5,6 @@ import AddOn from './AddOn';
 import { v4 as uuidv4 } from 'uuid';
 import axios from '../../config/axios';
 import { useNavigate } from 'react-router-dom'
-
 import Map from './Map';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
@@ -14,6 +13,8 @@ import { useAuth } from '../../hooks/use-auth';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Joi from 'joi';
 import InputErrorMessage from '../auth/RegisterErrorMessage';
 
@@ -98,6 +99,8 @@ export default function Product() {
 				case "MAIN":
 					setSelectedProduct(item.product.name)
 					setMainProductPrice(item.product.price)
+					setMainProductImage(item.product.productImage)
+					setMainProductDesc(item.product.desc)
 					break;
 				case "MONK":
 					setMonkAmount(item.amount)
@@ -232,7 +235,7 @@ export default function Product() {
 						{mainProductImage ? (
 							<img className="object-cover rounded-xl h-64 w-full" src={mainProductImage} alt="hero-image" />
 						) : (
-							<div className="rounded-xl h-64 w-full bg-gray-300"/>
+							<div className="rounded-xl h-64 w-full bg-gray-300" />
 						)}
 						<div className='text-gray-500 py-4 text-sm'>
 							{RenderDescription(mainProductDesc)}
@@ -349,12 +352,11 @@ export default function Product() {
 
 			</div>
 
-
+			{/* FOOTER */}
 			<div className='bg-orange-400 w-full fixed bottom-0 p-4 z-10'>
 				<div className='container flex justify-between items-center'>
 
-					<p className='text-lg'>
-
+					<p className='text-lg font-medium'>
 						{/* {`สินค้า: ${selectedProduct} , ราคา: ${mainProductPrice}`}<br />
 						{`นิมนต์: ${monkAmount} รูป , ราคารูปละ ${monkExpense.price}`}<br />
 						{`ค่านินมต์: ${monkExpense.price * monkAmount}`}<br />
@@ -366,11 +368,11 @@ export default function Product() {
 
 					{/* ---- BUTTON : ADD TO CART ---- */}
 					<button
-						className='bg-orange-200 rounded-lg p-2'
+						className='bg-white py-2 px-4 rounded-full text-lg font-medium flex items-center gap-2 hover:text-orange-500'
 						onClick={handleAddToCart}
 					>
 						{id ? ('update cart') : ('add to cart')}
-
+						<FontAwesomeIcon icon={faChevronRight} size='1x' />
 					</button>
 				</div>
 			</div>
