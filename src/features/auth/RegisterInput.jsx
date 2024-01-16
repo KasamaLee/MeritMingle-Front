@@ -1,5 +1,5 @@
 
-export default function RegisterInput({ type = 'text', placeholder, value, onChange, name, hasError }) {
+export default function RegisterInput({ type = 'text', placeholder, value, onChange, name, maxlength, hasError }) {
     return (
         <input
             type={type}
@@ -12,6 +12,7 @@ export default function RegisterInput({ type = 'text', placeholder, value, onCha
             `}
             name={name}
             value={value}
+            maxLength={maxlength}
             onChange={onChange}
         />
     )

@@ -70,9 +70,11 @@ export default function Product() {
 	const [error, setError] = useState({})
 
 	useEffect(() => {
+		// Update the existed Cart
 		if (id) {
 			fetchCartById(id);
 		}
+		// Try to create a new Cart
 		if (selectedProduct) {
 			const defaultProduct = mainProducts.find(item => item.name === selectedProduct)
 			addToCart(defaultProduct)

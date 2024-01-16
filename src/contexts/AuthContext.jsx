@@ -42,6 +42,7 @@ export default function AuthContextProvider({ children }) {
     const getMe = async () => {
         try {
             const response = await axios.get('/auth/me')
+            // console.log(authUser, '------------')
             setAuthUser(response.data.user);
 
         } catch (err) {
@@ -52,14 +53,15 @@ export default function AuthContextProvider({ children }) {
     }
 
     const onGoogleSuccess = async (res, onCloseModal) => {
-        // console.log(res.profileObj)
-        const data = {
-            userName: res.profileObj.givenName,
-            email: res.profileObj.email,
-            googleId: res.profileObj.googleId,
-        }
+        // console.log(res)
         try {
-            const response = await axios.post('/auth/googleLogin', data)
+            const data = {
+                firstName: res.profileObj.givenName,
+                lastName: res.profileObj.familyName,
+                email: res.profileObj.email,
+                googleId: res.profileObj.googleId,
+            }
+            const response = await axios.post('/auth/google', data)
             // console.log(response)
 
             const token = response.data.accessToken;
@@ -105,13 +107,26 @@ export default function AuthContextProvider({ children }) {
 
     }
 
-    const register = async (input, onCloseModal) => {
+    const register = async (input) => {
         const response = await axios.post('/auth/register', input);
 
         const token = response.data.accessToken;
         addAccessToken(token);
         setAuthUser(response.data.user);
-        onCloseModal();
+    }
+
+    const updateProfileInfo = async (input) => {
+        try {
+            const response = await axios.patch('/auth/update', input)
+            // console.log(response)
+            getMe();
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const updatePassword = async (input) => {
+
     }
 
     return (
@@ -122,6 +137,8 @@ export default function AuthContextProvider({ children }) {
             register,
             logout,
             isOpen, setIsOpen,
+            updateProfileInfo,
+            updatePassword,
             initialLoading, setInitialLoading
         }}>
             {children}

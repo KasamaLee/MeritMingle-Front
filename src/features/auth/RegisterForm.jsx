@@ -1,47 +1,11 @@
-import Joi from 'joi';
 import { useAuth } from '../../hooks/use-auth';
 import { useState } from 'react';
 import RegisterInput from './RegisterInput';
+import { validateRegister } from './auth-validator'
 import InputErrorMessage from './RegisterErrorMessage';
 import { GoogleLogin } from "react-google-login";
 import googleLogo from '../../assets/images/google.png'
 
-
-const registerSchema = Joi.object(
-    {
-        firstName: Joi.string().trim().required(),
-        lastName: Joi.string().trim().required(),
-
-        password: Joi.string().pattern(/^[a-zA-Z0-9]{6,30}$/)
-            .trim()
-            .required(),
-        confirmPassword: Joi.string().valid(Joi.ref('password'))
-            .trim()
-            .required()
-            .strip(),
-        email: Joi.string()
-            .trim()
-            .email({
-                tlds: { allow: ['com', 'net'] }
-            }),
-        mobile: Joi.string()
-            .pattern(/^[0-9]{10}$/)
-            .required(),
-    }
-)
-
-const validateRegister = (input) => {
-    const { error } = registerSchema.validate(input, { abortEarly: false });
-
-    if (error) {
-        const result = error.details.reduce((acc, elem) => {
-            const { message, path } = elem;
-            acc[path[0]] = message;
-            return acc;
-        }, {});
-        return result;
-    }
-}
 
 export default function RegisterForm({ setIsRegister, onCloseModal }) {
 
@@ -58,6 +22,7 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
     })
 
     const [error, setError] = useState({})
+
 
     const handleRegisterForm = (e) => {
         e.preventDefault();
@@ -92,6 +57,7 @@ export default function RegisterForm({ setIsRegister, onCloseModal }) {
                         <RegisterInput
                             placeholder="Mobile"
                             value={input.mobile}
+                            maxlength={10}
                             onChange={e => setInput({ ...input, mobile: e.target.value })}
                             hasError={error.mobile}
                         />

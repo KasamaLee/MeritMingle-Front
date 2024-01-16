@@ -8,11 +8,11 @@ import { useProduct } from "../hooks/use-product";
 
 export default function CartPage() {
 
-	const { carts, setCarts, deleteCart } = useProduct();
+	const { carts, setCarts, deleteCart, fetchCart } = useProduct();
 
 	useEffect(() => {
-        fetchCart();
-    }, [])
+		fetchCart();
+	}, [])
 
 
 	// Navigate
@@ -35,6 +35,7 @@ export default function CartPage() {
 					// ราคารวมของแต่ละ cart
 					sumPrice(cart.totalPrice);
 
+					// Cart Sorting ==> 'MAIN' must on the top of each Cart
 					cart.CartItem.sort((a, b) => {
 						if (a.product.type === 'MAIN') return -1
 						if (a.product.type === 'MONK' && b.product.type !== 'MAIN') {
@@ -87,7 +88,7 @@ export default function CartPage() {
 										onClick={() => {
 											// selectedCartById(cart.id)
 											// console.log(cartId)
-											navigate(`update/${cart.id}`)
+											navigate(`update/${cart.id}`)  // Update Cart ==> send `id` to ProductPage
 										}}
 									>
 										แก้ไข
@@ -97,7 +98,7 @@ export default function CartPage() {
 										className="bg-orange-400 text-white rounded-3xl py-1 px-4"
 										onClick={() => {
 											// selectedCartById(cart.id)
-											navigate(`/payment/${cart.id}`)
+											navigate(`/payment/${cart.id}`) 
 										}}>
 										ชำระเงิน
 									</button>
