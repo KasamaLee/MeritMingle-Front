@@ -11,7 +11,7 @@ import PasswordForm from '../features/auth/PasswordForm';
 export default function Profile() {
 
   const { authUser, updateProfileInfo } = useAuth()
-  console.log(authUser)
+  // console.log(authUser)
   const [isOpenEditModal, setIsOpenEditModal] = useState(false)
   const [isOpenPasswordModal, setIsOpenPasswordModal] = useState(false)
 
@@ -39,7 +39,7 @@ export default function Profile() {
           </div>
 
           <div
-            className='cursor-pointer text-gray-500 hover:text-blue-500 active:text-blue-500 flex gap-2'
+            className='cursor-pointer text-gray-500 hover:text-blue-500 active:text-blue-500 flex gap-2 h-fit'
             onClick={() => { setIsOpenEditModal(true) }}
           >
             <span>แก้ไข</span>

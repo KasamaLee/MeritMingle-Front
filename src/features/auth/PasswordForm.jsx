@@ -39,7 +39,7 @@ export default function PasswordForm({setIsOpenPasswordModal}) {
                         onChange={e => setInput({ ...input, oldPassword: e.target.value })}
                         hasError={error.password}
                     />
-                    {error.password && <InputErrorMessage message={error.oldPassword} />}
+                    {error.oldPassword && <InputErrorMessage message={error.oldPassword} />}
                 </div>
             </div>
 
@@ -52,7 +52,7 @@ export default function PasswordForm({setIsOpenPasswordModal}) {
                         onChange={e => setInput({ ...input, newPassword: e.target.value })}
                         hasError={error.password}
                     />
-                    {error.password && <InputErrorMessage message={error.newPassword} />}
+                    {error.newPassword && <InputErrorMessage message={error.newPassword} />}
                 </div>
 
                 <div className='w-full'>
