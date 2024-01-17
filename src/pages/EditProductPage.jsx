@@ -8,6 +8,8 @@ import { useProduct } from '../hooks/use-product';
 import Modal from '../components/Modal';
 import { useRef } from 'react';
 import { useAuth } from '../hooks/use-auth';
+import { toast } from 'react-toastify';
+
 
 export default function EditProductPage() {
 
@@ -67,12 +69,14 @@ export default function EditProductPage() {
 			newProduct.append('productImage', fileImg);
 
 			const response = await axios.post('/product/add', newProduct)
-			// console.log(response)
-			setIsOpenModal(false);
-			fetchProduct()
+			if (response.status === 200) {
+				toast.success('added product success !')
+				fetchProduct();
+				setIsOpenModal(false);
+			}
 
 		} catch (err) {
-			console.log(err)
+			toast.error("added fail")
 		} finally {
 			setInitialLoading(false)
 		}
@@ -90,13 +94,14 @@ export default function EditProductPage() {
 			updatedProduct.append('productImage', fileImg);
 
 			const response = await axios.patch(`/product/update/${productId}`, updatedProduct)
-			// console.log(response)
-
+			if (response.status === 200) {
+				toast.success('updated success !')
+				fetchProduct();
+			}
 			setIsOpenModal(false);
-			fetchProduct()
 
 		} catch (err) {
-			console.log(err)
+			toast.error("updated fail")
 		} finally {
 			setInitialLoading(false)
 		}
@@ -109,11 +114,12 @@ export default function EditProductPage() {
 			}
 
 			const response = await axios.patch(`/product/update/${monkId}`, updatedMonkExpense)
-			console.log(response)
-			fetchProduct();
-
+			if (response.status === 200) {
+				toast.success('updated success !')
+				fetchProduct();
+			}
 		} catch (err) {
-			console.log(err)
+			toast.error("updated fail")
 		}
 	}
 
@@ -124,10 +130,12 @@ export default function EditProductPage() {
 			}
 
 			const response = await axios.patch(`/product/update/${addOnId}`, updatedAddOnPrice)
-			console.log(response)
-			fetchProduct();
+			if (response.status === 200) {
+				toast.success('updated success !')
+				fetchProduct();
+			}
 		} catch (err) {
-			console.log(err)
+			toast.error("updated fail")
 		}
 	}
 
@@ -136,7 +144,7 @@ export default function EditProductPage() {
 			const response = await axios.delete(`/product/delete/${productId}`)
 			fetchProduct();
 		} catch (err) {
-			console.log("Error deleting product:", err)
+			toast.error("can't delete product")
 		}
 	}
 
