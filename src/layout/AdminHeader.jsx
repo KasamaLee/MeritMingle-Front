@@ -21,10 +21,10 @@ export default function AdminHeader() {
 
                     <nav>
                         <ul className='flex justify-center gap-4 hover items-baseline' >
-                            <li>
+                            <li className='hover:text-orange-400'>
                                 <Link to='/'>รายการสั่งซื้อ</Link>
                             </li>
-                            <li>
+                            <li className='hover:text-orange-400'>
                                 <Link to='/edit-product'>แก้ไขข้อมูลสินค้า</Link>
                             </li>
 

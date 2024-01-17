@@ -77,7 +77,7 @@ export default function AuthContextProvider({ children }) {
     }
 
     const onGoogleFailure = (res) => {
-        alert('Log in with Google Failed')
+        toast('Log in with Google Failed')
         console.log('failed', res)
     }
 
