@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useMemo } from 'react';
 import { useProduct } from '../../hooks/use-product';
 import { useAuth } from '../../hooks/use-auth';
+import { useEffect } from 'react';
 
 
 
@@ -15,24 +16,38 @@ export default function Map({ viewMode, location, searchLocation, setSearchLocat
     const { authUser } = useAuth();
 
     const [libraries, setLibraries] = useState(['places']);
+    const [center, setCenter] = useState({ lat: 13.7462, lng: 100.5347 });
+
+    useEffect(() => {
+        getLocation();
+        // console.log(currentLocation)
+    }, []);
+
+    const getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, handleError);
+        } else {
+            setError("Geolocation is not supported by this browser.");
+        }
+    }
+
+    const showPosition = (position) => {
+        const newLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+        };
+        setCurrentLocation(newLocation);
+        setCenter(newLocation); // ทำการ set ค่า center ใหม่ที่นี่
+    };
+
+    const handleError = (error) => {
+        setError("Error fetching location: " + error.message);
+    };
 
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: 'AIzaSyA-x_1WHNliOXJH-Pcpk7BDToWZ0dZQ8II',
         libraries
     });
-
-    const center = useMemo(() => {
-        // for admin
-        if (location) {
-            // center of map
-            return location;
-        } else {
-            return { lat: 13.7462, lng: 100.5347 }
-        }
-
-        // for user this code only is OK
-        // return { lat: 13.7462, lng: 100.5347 }
-    }, [])
 
     const handleSetSearchLocation = (input) => {
         setMapClicked(null)
