@@ -27,10 +27,13 @@ Run project: pnpm run dev
 ### Cart
 ![alt text](/src/assets/previews/meritmingle_cart.png)
 
+### Payment
+![alt text](/src/assets/previews/meritmingle_qr.png)
+
 ### Order
 ![alt text](/src/assets/previews/meritmingle_order.png)
 
-### Order
+### User profile
 ![alt text](/src/assets/previews/meritmingle_profile.png)
 
 ## Admin
