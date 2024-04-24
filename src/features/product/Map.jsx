@@ -20,7 +20,7 @@ export default function Map({ viewMode, location, searchLocation, setSearchLocat
 
     useEffect(() => {
         getLocation();
-        // console.log(currentLocation)
+    // console.log(currentLocation)
     }, []);
 
     const getLocation = () => {
@@ -45,7 +45,7 @@ export default function Map({ viewMode, location, searchLocation, setSearchLocat
     };
 
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: 'AIzaSyA-x_1WHNliOXJH-Pcpk7BDToWZ0dZQ8II',
+        googleMapsApiKey: '',
         libraries
     });
 
